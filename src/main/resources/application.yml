@@ -1,0 +1,16 @@
+spring:
+  social:
+
+    facebook:
+      app-id: 2097394820490846
+      app-secret: 7cb830d50df23969a1d00236a2335afb
+  datasource:
+
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/my-spring-social
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+
