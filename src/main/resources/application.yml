@@ -3,6 +3,12 @@ spring:
     facebook:
       app-id: 2010494489235858
       app-secret: 5bb40c366ad19825d34fa868b6ed2947
+    twitter:
+      app-id: VroWfn8ooSQTFpCLne1OYoRKg
+      app-secret: T6bfvTBioRkyfj32kW8qw4ar5UBAX1W5G2UZGogyl2cvHpBV2l
+    linkedin:
+      app-id:
+      app-secret:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/my-spring-social
