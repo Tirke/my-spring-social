@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.linkedin.api.LinkedIn;
+import org.springframework.social.linkedin.api.NewShare;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +50,16 @@ public class HelloController {
       System.out.println(t.getSource() + " tweet id source");
     });
 
+    return "index";
+  }
+
+  @GetMapping("/linkedin")
+  public String helloLinkedIn(Model model) {
+    if (connectionRepo.findPrimaryConnection(LinkedIn.class) == null) {
+      return "redirect:/connect/linkedin";
+    };
+    System.out.println(linkedIn.networkUpdateOperations().getCurrentShare().getContent().getTitle().toString());
+    System.out.println(linkedIn.profileOperations().getProfileUrl());
     return "index";
   }
 
