@@ -15,7 +15,6 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -102,6 +101,8 @@ public class HelloController {
       return "redirect:/connect/facebook";
     }
 
+    System.out.println(facebook.feedOperations().getFeed());
+//    System.out.println(facebook.feedOperations().getHomeFeed());
     model.addAttribute("profile", facebook.userOperations().getUserProfile());
     return "index";
   }
