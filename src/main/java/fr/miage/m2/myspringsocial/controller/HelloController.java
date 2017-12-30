@@ -15,7 +15,6 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -76,22 +75,27 @@ public class HelloController {
   @GetMapping("/insta")
   public String helloInsta(Model model) {
 
-    service = new InstagramAuthService()
-        .apiKey("1241d3b7ad774a598f42e99b51935873")
-        .apiSecret("83d9ba90e5e249e190238e0a2d312e0b")
-        .callback("http://localhost:8080/connect/instagram")
-        .build();
-    String authorizationUrl = service.getAuthorizationUrl();
-    return "redirect:"+authorizationUrl;
+    if (instagram == null) {
+      service = new InstagramAuthService()
+          .apiKey("1241d3b7ad774a598f42e99b51935873")
+          .apiSecret("83d9ba90e5e249e190238e0a2d312e0b")
+          .callback("http://localhost:8080/connect/instagram")
+          .build();
+      String authorizationUrl = service.getAuthorizationUrl();
+      return "redirect:" + authorizationUrl;
+    }
+
+    return "index";
+
   }
 
   @GetMapping("/connect/instagram")
-  public void test(@RequestParam String code) throws InstagramException {
-    System.out.println(code);
+  public String getInstaToken (@RequestParam String code) throws InstagramException {
     Verifier verifier = new Verifier(code);
     Token accessToken = service.getAccessToken(verifier);
     instagram = new Instagram(accessToken);
     System.out.println(instagram.getCurrentUserInfo().getData().getId());
+    return "connect/instagramConnected";
   }
 
 
