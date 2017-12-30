@@ -74,7 +74,7 @@ public class HelloController {
   }
 
   @GetMapping("/insta")
-  public void helloIsta(Model model) {
+  public String helloInsta(Model model) {
 
     service = new InstagramAuthService()
         .apiKey("1241d3b7ad774a598f42e99b51935873")
@@ -82,7 +82,7 @@ public class HelloController {
         .callback("http://localhost:8080/connect/instagram")
         .build();
     String authorizationUrl = service.getAuthorizationUrl();
-    System.out.println(authorizationUrl);
+    return "redirect:"+authorizationUrl;
   }
 
   @GetMapping("/connect/instagram")
