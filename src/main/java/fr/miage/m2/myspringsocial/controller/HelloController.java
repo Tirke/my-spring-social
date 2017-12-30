@@ -15,6 +15,7 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -76,17 +77,22 @@ public class HelloController {
   public String helloInsta(Model model) {
 
     if (instagram == null) {
-      service = new InstagramAuthService()
-          .apiKey("1241d3b7ad774a598f42e99b51935873")
-          .apiSecret("83d9ba90e5e249e190238e0a2d312e0b")
-          .callback("http://localhost:8080/connect/instagram")
-          .build();
-      String authorizationUrl = service.getAuthorizationUrl();
-      return "redirect:" + authorizationUrl;
+      return "connect/instagramConnect";
     }
 
     return "index";
 
+  }
+
+  @PostMapping("/connect/instagram")
+  public String connectToInstagram(){
+    service = new InstagramAuthService()
+        .apiKey("1241d3b7ad774a598f42e99b51935873")
+        .apiSecret("83d9ba90e5e249e190238e0a2d312e0b")
+        .callback("http://localhost:8080/connect/instagram")
+        .build();
+    String authorizationUrl = service.getAuthorizationUrl();
+    return "redirect:" + authorizationUrl;
   }
 
   @GetMapping("/connect/instagram")
