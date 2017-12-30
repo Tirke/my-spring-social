@@ -75,22 +75,32 @@ public class HelloController {
   @GetMapping("/insta")
   public String helloInsta(Model model) {
 
+    if (instagram == null) {
+      return "connect/instagramConnect";
+    }
+
+    return "index";
+
+  }
+
+  @PostMapping("/connect/instagram")
+  public String connectToInstagram(){
     service = new InstagramAuthService()
         .apiKey("1241d3b7ad774a598f42e99b51935873")
         .apiSecret("83d9ba90e5e249e190238e0a2d312e0b")
         .callback("http://localhost:8080/connect/instagram")
         .build();
     String authorizationUrl = service.getAuthorizationUrl();
-    return "redirect:"+authorizationUrl;
+    return "redirect:" + authorizationUrl;
   }
 
   @GetMapping("/connect/instagram")
-  public void test(@RequestParam String code) throws InstagramException {
-    System.out.println(code);
+  public String getInstaToken (@RequestParam String code) throws InstagramException {
     Verifier verifier = new Verifier(code);
     Token accessToken = service.getAccessToken(verifier);
     instagram = new Instagram(accessToken);
     System.out.println(instagram.getCurrentUserInfo().getData().getId());
+    return "connect/instagramConnected";
   }
 
 
