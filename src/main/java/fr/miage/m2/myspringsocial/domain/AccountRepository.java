@@ -8,5 +8,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 
   Account getByUsername(String username);
 
+  Account getById(String id);
+
   boolean existsByUsername(String username);
 }

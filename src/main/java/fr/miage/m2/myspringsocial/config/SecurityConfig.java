@@ -1,6 +1,7 @@
 package fr.miage.m2.myspringsocial.config;
 
 import fr.miage.m2.myspringsocial.service.AccountDetailsService;
+import fr.miage.m2.myspringsocial.service.SocialAccountDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,16 +12,20 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+  private SocialAccountDetailsService socialAccountDetailsService;
   private AccountDetailsService accountDetailsService;
 
   @Autowired
   public SecurityConfig(
+      SocialAccountDetailsService socialAccountDetailsService,
       AccountDetailsService accountDetailsService) {
+    this.socialAccountDetailsService = socialAccountDetailsService;
     this.accountDetailsService = accountDetailsService;
   }
 
@@ -28,6 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
+
+  @Bean public SocialUserDetailsService socialUserDetailsService(){
+    return new SocialAccountDetailsService();
+  }
+
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {

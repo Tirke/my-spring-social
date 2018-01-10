@@ -1,4 +1,4 @@
-package fr.miage.m2.myspringsocial.utils;
+package fr.miage.m2.myspringsocial.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

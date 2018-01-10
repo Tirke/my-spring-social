@@ -46,7 +46,7 @@ public class SignupController {
   public String signupUser(@ModelAttribute UserForm form, WebRequest request) {
     try {
       Account account = accountService.create(form);
-      signInUtils.doPostSignUp(account.getUsername(), request);
+      signInUtils.doPostSignUp(account.getId(), request);
       // Then our SignInAdapter in SocialConfig will trigger to effectively signin the user
       return "redirect:/";
     } catch (UsernameNotUnique e) {

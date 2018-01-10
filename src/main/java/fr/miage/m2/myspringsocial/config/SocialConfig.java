@@ -1,6 +1,5 @@
 package fr.miage.m2.myspringsocial.config;
 
-import fr.miage.m2.myspringsocial.utils.SimpleSigninAdapter;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
