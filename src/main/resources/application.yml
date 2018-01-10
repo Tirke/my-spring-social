@@ -6,9 +6,6 @@ spring:
     twitter:
       app-id: VroWfn8ooSQTFpCLne1OYoRKg
       app-secret: T6bfvTBioRkyfj32kW8qw4ar5UBAX1W5G2UZGogyl2cvHpBV2l
-    linkedin:
-      app-id: 77dvneln1s4ne1
-      app-secret: vY2FrdxJl8wMPGb8
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/my-spring-social
@@ -16,5 +13,5 @@ spring:
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 

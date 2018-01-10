@@ -1,22 +1,10 @@
-<!DOCTYPE html>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
 <body>
-<h1>Main Page</h1>
-<h3>Hello, <span th:text="${profile.name}"></span>!</h3>
+<section class="section" layout:fragment="content">
+  <h1 class="title">Spring Social</h1>
 
-<!--<h4>Here is your feed:</h4>-->
-
-<!--<div th:each="post:${feed}">-->
-  <!--<b th:text="${post.from.name}"></b> wrote:-->
-  <!--<p th:text="${post.message}"></p>-->
-  <!--<img th:if="${post.picture}" th:src="${post.picture}"/>-->
-  <!--<hr/>-->
-<!--</div>-->
+</section>
 </body>
 </html>

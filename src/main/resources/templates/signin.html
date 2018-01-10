@@ -1,0 +1,41 @@
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layout/layout}">
+<body>
+<section class="section" layout:fragment="content">
+  <h1>Sign In</h1>
+
+  <form id="signin" th:action="@{/signin/authenticate}" method="post">
+    <div class="formInfo">
+      <div class="error" th:if="${param.error eq 'bad_credentials'}">
+        Your sign in information was incorrect.
+        Please try again or <a th:href="@{/signup}">sign up</a>.
+      </div>
+      <div class="error" th:if="${param.error eq 'multiple_users'}">
+        Multiple local accounts are connected to the provider account.
+        Try again with a different provider or with your username and password.
+      </div>
+    </div>
+
+    <label>Username</label>
+    <input name="username"/>
+    <label>Password</label>
+    <input name="password" type="password"/>
+    <button type="submit" class="btn btn-form">Sign In</button>
+
+    <p>Or you can <a th:href="@{/signup}">signup</a> with a new account.</p>
+  </form>
+
+
+  <form th:action="@{/signin/twitter}" method="POST">
+    <button type="submit">Login With Twitter</button>
+  </form>
+
+  <form th:action="@{/signin/facebook}" method="POST">
+    <input type="hidden" name="scope" value="read_stream,user_posts,user_photos"/>
+    <button type="submit">Login With FB</button>
+  </form>
+</section>
+</body>
+</html>

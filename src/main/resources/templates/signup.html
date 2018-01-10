@@ -1,0 +1,35 @@
+<html
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/layout}">
+<body>
+<section class="section" layout:fragment="content">
+
+  <h1>Sign Up</h1>
+
+  <form id="signup" th:action="@{/signup}" method="post" th:object="${user}">
+    <div class="error" th:if="${#fields.hasErrors('*')}">
+      Unable to sign up. Please fix the errors below and resubmit.
+    </div>
+
+
+    <label>FirstName</label>
+    <input th:field="*{firstName}"/><br/>
+    <label>LastName</label>
+    <input th:field="*{lastName}"/><br/>
+    <label>Username</label>
+    <input th:field="*{username}"/><br/>
+
+    <label>Password</label>
+    <span th:if="${#fields.hasErrors('password')}"
+          th:text="${#fields.errors('password')[0]}">
+    </span>
+    <input type="password" th:field="*{password}"/>
+    <small>at lest 6 characters</small>
+
+    <button type="submit" class="btn btn-form">Sign Up</button>
+  </form>
+
+</section>
+</body>
+</html>

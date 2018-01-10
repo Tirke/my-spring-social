@@ -1,39 +1,23 @@
 package fr.miage.m2.myspringsocial.controller;
 
 
-import org.jinstagram.Instagram;
-import org.jinstagram.auth.InstagramAuthService;
-import org.jinstagram.auth.model.Token;
-import org.jinstagram.auth.model.Verifier;
-import org.jinstagram.auth.oauth.InstagramService;
-import org.jinstagram.exceptions.InstagramException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.linkedin.api.LinkedIn;
-import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HelloController {
 
-  private Facebook facebook;
+  /*private Facebook facebook;
   private Twitter twitter;
-  private LinkedIn linkedIn;
   private Instagram instagram;
   private ConnectionRepository connectionRepo;
   private InstagramService service;
 
   @Autowired
   public HelloController(Facebook facebook,
-      Twitter twitter, LinkedIn linkedIn,
+      Twitter twitter,
       ConnectionRepository connectionRepo) {
     this.facebook = facebook;
     this.twitter = twitter;
-    this.linkedIn = linkedIn;
     this.connectionRepo = connectionRepo;
   }
 
@@ -61,16 +45,6 @@ public class HelloController {
     return "index";
   }
 
-  @GetMapping("/linkedin")
-  public String helloLinkedIn(Model model) {
-    if (connectionRepo.findPrimaryConnection(LinkedIn.class) == null) {
-      return "redirect:/connect/linkedin";
-    }
-    System.out.println(linkedIn.isAuthorized());
-    System.out.println(linkedIn.profileOperations().getProfileId());
-    System.out.println(linkedIn.networkUpdateOperations().getNetworkUpdates().toArray().toString());
-    return "index";
-  }
 
   @GetMapping("/insta")
   public String helloInsta(Model model) {
@@ -80,11 +54,10 @@ public class HelloController {
     }
 
     return "index";
-
   }
 
   @PostMapping("/connect/instagram")
-  public String connectToInstagram(){
+  public String connectToInstagram() {
     service = new InstagramAuthService()
         .apiKey("1241d3b7ad774a598f42e99b51935873")
         .apiSecret("83d9ba90e5e249e190238e0a2d312e0b")
@@ -95,7 +68,7 @@ public class HelloController {
   }
 
   @GetMapping("/connect/instagram")
-  public String getInstaToken (@RequestParam String code) throws InstagramException {
+  public String getInstaToken(@RequestParam String code) throws InstagramException {
     Verifier verifier = new Verifier(code);
     Token accessToken = service.getAccessToken(verifier);
     instagram = new Instagram(accessToken);
@@ -115,5 +88,5 @@ public class HelloController {
 //    System.out.println(facebook.feedOperations().getHomeFeed());
     model.addAttribute("profile", facebook.userOperations().getUserProfile());
     return "index";
-  }
+  }*/
 }

@@ -1,0 +1,30 @@
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layout/layout}">
+<body>
+<section class="section" layout:fragment="content">
+  <h1>Sign In</h1>
+
+  <h3>Your Connections</h3>
+
+  <div class="accountConnection" th:each="providerId : ${providerIds}">
+    <h4>
+      <span>Image du provider</span>
+      <span th:text="#{${providerId} + '.displayName'}">provider name</span></h4>
+    <p>
+ 				<span th:if="${!#lists.isEmpty(connectionMap[__${providerId}__])}">
+					You are connected to <span
+            th:text="#{${providerId} + '.displayName'}">provider name</span> as <span
+            th:text="${connectionMap[__${providerId}__][0].displayName}">user display name</span>.
+				</span>
+      <span th:if="${#lists.isEmpty(connectionMap[__${providerId}__])}">
+					You are not yet connected to <span th:text="#{${providerId} + '.displayName'}">provider name</span>.
+				</span>
+      Click <a th:href="@{'/connect/' + ${providerId}}">here</a> to manage your <span
+        th:text="#{${providerId} + '.displayName'}">provider name</span> connection.
+    </p>
+  </div>
+</section>
+</body>
+</html>
