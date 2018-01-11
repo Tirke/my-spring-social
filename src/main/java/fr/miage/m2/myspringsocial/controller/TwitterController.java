@@ -4,6 +4,7 @@ import fr.miage.m2.myspringsocial.domain.Event;
 import fr.miage.m2.myspringsocial.domain.EventRepository;
 import fr.miage.m2.myspringsocial.domain.EventType;
 import fr.miage.m2.myspringsocial.domain.SocialMedia;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.ConnectionRepository;
@@ -61,8 +62,13 @@ public class TwitterController {
     });
 
     twitter.timelineOperations().getFavorites().forEach(t -> {
-      Event event = buildEvent(t);
-      event.setEventType(EventType.like);
+      Event event = new Event()
+          .setId(UUID.randomUUID().toString())
+          .setDate(t.getCreatedAt())
+          .setSocialMedia(SocialMedia.twitter)
+          .setEventType(EventType.like)
+          .setLinkedTo(t.getId())
+          .setAuthor(t.getFromUser());
       eventRepository.save(event);
     });
 
