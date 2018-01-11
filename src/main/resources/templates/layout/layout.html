@@ -6,48 +6,42 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-social@1.0.3/materialize-social.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
   <title>Spring Social</title>
 </head>
 <body>
-<nav class="navbar is-transparent">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img th:src="@{/images/logo.png}" alt="My Spring Social">
+
+
+
+<nav class="blue darken-1">
+  <div class="nav-wrapper">
+    <a th:href="@{/}" class="brand-logo">
+      <img th:src="@{/images/logo.png}" alt="My Spring Social" height="30px">
     </a>
-    <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </div>
-
-  <div id="navbarExampleTransparentExample" class="navbar-menu">
-    <div class="navbar-start">
-      <a class="navbar-item" href="https://bulma.io/">
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a th:href="@{/}">
         Home
-      </a>
-    </div>
-
-    <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="field is-grouped">
-          <a class="navbar-item" th:href="@{/signup}">
-            Sign in
-          </a>
-
-          <a class="navbar-item" th:href="@{/signin}">
-            Sign up
-          </a>
-        </div>
-      </div>
-    </div>
+      </a></li>
+      <li><a th:href="@{/signin}">
+        Sign in
+      </a></li>
+      <li><a th:href="@{/signup}">
+        Sign up
+      </a></li>
+    </ul>
   </div>
 </nav>
-<section layout:fragment="content"></section>
 
-<script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+<div class="container">
+  <section layout:fragment="content" class="container"></section>
+</div>
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 <script>
 
 </script>

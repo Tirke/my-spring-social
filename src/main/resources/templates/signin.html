@@ -4,38 +4,58 @@
     layout:decorate="~{layout/layout}">
 <body>
 <section class="section" layout:fragment="content">
-  <h1>Sign In</h1>
+  <h1 class="title">Sign In</h1>
 
-  <form id="signin" th:action="@{/signin/authenticate}" method="post">
-    <div class="formInfo">
-      <div class="error" th:if="${param.error eq 'bad_credentials'}">
-        Your sign in information was incorrect.
-        Please try again or <a th:href="@{/signup}">sign up</a>.
+  <div class="row">
+    <form id="signin" th:action="@{/signin/authenticate}" method="post" class="col m12">
+
+      <div class="formInfo">
+        <div class="error" th:if="${param.error eq 'bad_credentials'}">
+          Your sign in information was incorrect.
+          Please try again or <a th:href="@{/signup}">sign up</a>.
+        </div>
+        <div class="error" th:if="${param.error eq 'multiple_users'}">
+          Multiple local accounts are connected to the provider account.
+          Try again with a different provider or with your username and password.
+        </div>
       </div>
-      <div class="error" th:if="${param.error eq 'multiple_users'}">
-        Multiple local accounts are connected to the provider account.
-        Try again with a different provider or with your username and password.
+
+      <div class="row">
+        <input placeholder="Username" id="username" type="text" name="username">
       </div>
+      <div class="row">
+        <input type="password" placeholder="Password" name="password">
+      </div>
+
+      <div class="field">
+        <p class="control">
+          <button class="btn blue darken-1" type="submit">
+            Sign In
+          </button>
+        </p>
+      </div>
+
+      <p>Or you can <a th:href="@{/signup}">signup</a> with a new account.</p>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col m6">
+      <form th:action="@{/signin/facebook}" method="POST">
+        <input type="hidden" name="scope" value="read_stream,user_posts,user_photos"/>
+        <button class="waves-effect waves-light btn social facebook" type="submit">
+          <i class="fa fa-facebook"></i> Sign in with Facebook
+        </button>
+      </form>
     </div>
-
-    <label>Username</label>
-    <input name="username"/>
-    <label>Password</label>
-    <input name="password" type="password"/>
-    <button type="submit" class="btn btn-form">Sign In</button>
-
-    <p>Or you can <a th:href="@{/signup}">signup</a> with a new account.</p>
-  </form>
-
-
-  <form th:action="@{/signin/twitter}" method="POST">
-    <button type="submit">Login With Twitter</button>
-  </form>
-
-  <form th:action="@{/signin/facebook}" method="POST">
-    <input type="hidden" name="scope" value="read_stream,user_posts,user_photos"/>
-    <button type="submit">Login With FB</button>
-  </form>
+    <div class="col m6">
+      <form th:action="@{/signin/twitter}" method="POST">
+        <button class="waves-effect waves-light btn social twitter" type="submit">
+          <i class="fa fa-twitter"></i> Sign in with Twitter
+        </button>
+      </form>
+    </div>
+  </div>
 </section>
 </body>
 </html>

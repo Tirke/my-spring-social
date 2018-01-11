@@ -7,29 +7,40 @@
 
   <h1>Sign Up</h1>
 
-  <form id="signup" th:action="@{/signup}" method="post" th:object="${user}">
-    <div class="error" th:if="${#fields.hasErrors('*')}">
-      Unable to sign up. Please fix the errors below and resubmit.
-    </div>
 
+  <div class="row">
+    <form id="signup" th:action="@{/signup}" method="post" class="col m12" th:object="${user}">
 
-    <label>FirstName</label>
-    <input th:field="*{firstName}"/><br/>
-    <label>LastName</label>
-    <input th:field="*{lastName}"/><br/>
-    <label>Username</label>
-    <input th:field="*{username}"/><br/>
+      <div class="error" th:if="${#fields.hasErrors('*')}">
+        Unable to sign up. Please fix the errors below and resubmit.
+      </div>
 
-    <label>Password</label>
-    <span th:if="${#fields.hasErrors('password')}"
-          th:text="${#fields.errors('password')[0]}">
-    </span>
-    <input type="password" th:field="*{password}"/>
-    <small>at lest 6 characters</small>
+      <div class="row">
+        <input placeholder="First name" th:field="*{firstName}"/><br/>
+      </div>
+      <div class="row">
+        <input placeholder="Last name" th:field="*{lastName}"/><br/>
+      </div>
+      <div class="row">
+        <input placeholder="Username" th:field="*{username}"/><br/>
+      </div>
+      <div class="row">
+        <span th:if="${#fields.hasErrors('password')}"
+              th:text="${#fields.errors('password')[0]}">
+        </span>
+        <input placeholder="Password : 6 characters minimum" type="password" th:field="*{password}"/>
+      </div>
 
-    <button type="submit" class="btn btn-form">Sign Up</button>
-  </form>
+      <div class="field">
+        <p class="control">
+          <button class="btn blue darken-1" type="submit">
+            Sign Up
+          </button>
+        </p>
+      </div>
 
+    </form>
+  </div>
 </section>
 </body>
 </html>
