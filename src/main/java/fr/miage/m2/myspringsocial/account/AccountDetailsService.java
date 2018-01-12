@@ -1,8 +1,5 @@
-package fr.miage.m2.myspringsocial.service;
+package fr.miage.m2.myspringsocial.account;
 
-import fr.miage.m2.myspringsocial.domain.Account;
-import fr.miage.m2.myspringsocial.domain.AccountDetails;
-import fr.miage.m2.myspringsocial.domain.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

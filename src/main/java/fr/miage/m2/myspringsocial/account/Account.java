@@ -1,5 +1,6 @@
-package fr.miage.m2.myspringsocial.domain;
+package fr.miage.m2.myspringsocial.account;
 
+import fr.miage.m2.myspringsocial.shared.Auditable;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

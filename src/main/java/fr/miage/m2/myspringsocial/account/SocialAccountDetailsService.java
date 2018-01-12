@@ -1,8 +1,5 @@
-package fr.miage.m2.myspringsocial.service;
+package fr.miage.m2.myspringsocial.account;
 
-import fr.miage.m2.myspringsocial.domain.Account;
-import fr.miage.m2.myspringsocial.domain.AccountDetails;
-import fr.miage.m2.myspringsocial.domain.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,9 +16,9 @@ public class SocialAccountDetailsService implements SocialUserDetailsService {
 
 
   @Override
-  public SocialUserDetails loadUserByUserId(String id) throws UsernameNotFoundException {
-    log.info("trying to access social user details :" + id);
-    Account account = accountRepo.getById(id);
+  public SocialUserDetails loadUserByUserId(String username) throws UsernameNotFoundException {
+    log.info("trying to access social user details :" + username);
+    Account account = accountRepo.getByUsername(username);
     if (account == null) {
       throw new UsernameNotFoundException("Account not found");
     }

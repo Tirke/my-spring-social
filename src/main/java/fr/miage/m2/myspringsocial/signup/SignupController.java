@@ -1,11 +1,15 @@
-package fr.miage.m2.myspringsocial.controller;
+package fr.miage.m2.myspringsocial.signup;
 
-import fr.miage.m2.myspringsocial.domain.Account;
-import fr.miage.m2.myspringsocial.service.AccountService;
-import fr.miage.m2.myspringsocial.service.UsernameNotUnique;
-import fr.miage.m2.myspringsocial.validation.UserForm;
+import fr.miage.m2.myspringsocial.account.Account;
+import fr.miage.m2.myspringsocial.account.AccountDetails;
+import fr.miage.m2.myspringsocial.account.AccountForm;
+import fr.miage.m2.myspringsocial.account.AccountService;
+import fr.miage.m2.myspringsocial.account.UsernameNotUnique;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
@@ -33,11 +37,11 @@ public class SignupController {
   @GetMapping("/signup")
   public String signupForm(Model model, WebRequest request) {
     Connection<?> connection = signInUtils.getConnectionFromSession(request);
-    UserForm user = new UserForm();
+    AccountForm user = new AccountForm();
 
     if (connection != null) {
       // This is when user chose a social provider for initial signup
-      user = UserForm.fromSocialProfile(connection.fetchUserProfile());
+      user = AccountForm.fromSocialProfile(connection.fetchUserProfile());
     } // Else go to signup form without any info
 
     model.addAttribute("user", user);
@@ -45,11 +49,15 @@ public class SignupController {
   }
 
   @PostMapping("/signup")
-  public String signupUser(@ModelAttribute @Valid UserForm form, WebRequest request,
+  public String signupUser(@ModelAttribute @Valid AccountForm form, WebRequest request,
       BindingResult result) {
     try {
       Account account = accountService.create(form);
-      signInUtils.doPostSignUp(account.getId(), request);
+      AccountDetails accountDetails = new AccountDetails(account);
+      Authentication authentication = new UsernamePasswordAuthenticationToken(accountDetails, null,
+          accountDetails.getAuthorities());
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+      signInUtils.doPostSignUp(account.getUsername(), request);
       // Then our SignInAdapter in SocialConfig will trigger to effectively signin the user
       return "redirect:/";
     } catch (UsernameNotUnique e) {

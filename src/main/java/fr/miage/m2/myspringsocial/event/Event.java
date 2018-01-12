@@ -1,4 +1,4 @@
-package fr.miage.m2.myspringsocial.domain;
+package fr.miage.m2.myspringsocial.event;
 
 import java.util.Date;
 import java.util.Set;

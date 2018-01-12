@@ -1,4 +1,4 @@
-package fr.miage.m2.myspringsocial.domain;
+package fr.miage.m2.myspringsocial.shared;
 
 import java.util.Date;
 import javax.persistence.EntityListeners;
@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-abstract class Auditable {
+public abstract class Auditable {
 
   @CreatedDate
   private Date createdAt;

@@ -1,4 +1,4 @@
-package fr.miage.m2.myspringsocial.controller;
+package fr.miage.m2.myspringsocial.home;
 
 
 import org.springframework.stereotype.Controller;

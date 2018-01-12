@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-  @Bean public SocialUserDetailsService socialUserDetailsService(){
+  @Bean
+  public SocialUserDetailsService socialUserDetailsService() {
     return new SocialAccountDetailsService();
   }
 
@@ -58,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .loginProcessingUrl("/signin/authenticate")
         .defaultSuccessUrl("/connect")
         .failureUrl("/signin?error=bad_credentials")
-        .and().logout().logoutUrl("/signout").deleteCookies("JSESSIONID")
+        .and().logout().logoutUrl("/signout").deleteCookies("JSESSIONID", "SESSION")
         .and().authorizeRequests()
         .antMatchers("/", "/favicon.ico",
             "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook").permitAll()

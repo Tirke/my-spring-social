@@ -1,4 +1,4 @@
-package fr.miage.m2.myspringsocial.domain;
+package fr.miage.m2.myspringsocial.account;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -7,8 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends JpaRepository<Account, String> {
 
   Account getByUsername(String username);
-
-  Account getById(String id);
 
   boolean existsByUsername(String username);
 }

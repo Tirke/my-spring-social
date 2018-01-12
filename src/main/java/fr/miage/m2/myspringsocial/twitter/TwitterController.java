@@ -1,9 +1,9 @@
-package fr.miage.m2.myspringsocial.controller;
+package fr.miage.m2.myspringsocial.twitter;
 
-import fr.miage.m2.myspringsocial.domain.Event;
-import fr.miage.m2.myspringsocial.domain.EventRepository;
-import fr.miage.m2.myspringsocial.domain.EventType;
-import fr.miage.m2.myspringsocial.domain.SocialMedia;
+import fr.miage.m2.myspringsocial.event.Event;
+import fr.miage.m2.myspringsocial.event.EventRepository;
+import fr.miage.m2.myspringsocial.event.EventType;
+import fr.miage.m2.myspringsocial.event.SocialMedia;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;

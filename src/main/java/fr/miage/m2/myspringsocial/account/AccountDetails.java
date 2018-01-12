@@ -1,4 +1,4 @@
-package fr.miage.m2.myspringsocial.domain;
+package fr.miage.m2.myspringsocial.account;
 
 import java.util.Collection;
 import java.util.HashSet;

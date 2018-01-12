@@ -1,8 +1,5 @@
-package fr.miage.m2.myspringsocial.service;
+package fr.miage.m2.myspringsocial.account;
 
-import fr.miage.m2.myspringsocial.domain.Account;
-import fr.miage.m2.myspringsocial.domain.AccountRepository;
-import fr.miage.m2.myspringsocial.validation.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +21,7 @@ public class AccountService {
     return accountRepo.getByUsername(username);
   }
 
-  public Account create(UserForm form) throws UsernameNotUnique {
+  public Account create(AccountForm form) throws UsernameNotUnique {
     if (accountRepo.existsByUsername(form.getUsername())) {
       throw new UsernameNotUnique("An user with the same username already exists");
     }

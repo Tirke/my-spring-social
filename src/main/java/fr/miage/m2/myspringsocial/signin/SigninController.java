@@ -1,4 +1,4 @@
-package fr.miage.m2.myspringsocial.controller;
+package fr.miage.m2.myspringsocial.signin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
