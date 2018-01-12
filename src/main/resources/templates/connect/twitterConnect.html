@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Twitter</title>
-</head>
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layout/layout}">
 <body>
-<h3>Connect to Twitter</h3>
-<form action="/connect/twitter" method="POST">
-  <div>
-    <p>You aren't connected to Twitter yet. Click the button to connect this application with your
-      Twitter account.</p>
-  </div>
-  <p>
-    <button type="submit">Connect to Twitter</button>
-  </p>
-</form>
-
-
+<section class="section" layout:fragment="content">
+  <h2>Connect to Twitter</h2>
+  <form th:action="@{/connect/twitter}" method="POST">
+    <div>You aren't connected to Twitter yet. Click the button to connect this application with your
+      Twitter account.
+    </div>
+    <button class="waves-effect waves-light btn social twitter" type="submit">
+      <i class="fa fa-twitter"></i>Connect to Twitter
+    </button>
+  </form>
+</section>
 </body>
 </html>

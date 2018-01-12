@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Facebook</title>
-</head>
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layout/layout}">
 <body>
-<h3>Connect to Facebook</h3>
+<section class="section" layout:fragment="content">
+  <h2>Connect to Facebook</h2>
+  <form th:action="@{/connect/facebook}" method="POST">
+    <!--<input type="hidden" name="_csrf" th:value="${_csrf.token}"/>-->
+    <input type="hidden" name="scope" value="user_posts"/>
+    <div>
+      <p>
+        You aren't connected to Facebook yet. Click the button to connect this application with
+        your Facebook account.
+      </p>
+    </div>
 
-<form action="/connect/facebook" method="POST">
-  <input type="hidden" name="scope" value="user_posts"/>
-  <div class="formInfo">
-    <p>You aren't connected to Facebook yet. Click the button to connect this application with your
-      Facebook account.
-    </p>
-  </div>
-  <p>
-    <button type="submit">Connect to Facebook</button>
-  </p>
-</form>
+    <button class="waves-effect waves-light btn social facebook" type="submit">
+      <i class="fa fa-facebook"></i>Connect to Facebook
+    </button>
+  </form>
+</section>
 </body>
 </html>

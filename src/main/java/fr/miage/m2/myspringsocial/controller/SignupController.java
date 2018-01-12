@@ -4,11 +4,13 @@ import fr.miage.m2.myspringsocial.domain.Account;
 import fr.miage.m2.myspringsocial.service.AccountService;
 import fr.miage.m2.myspringsocial.service.UsernameNotUnique;
 import fr.miage.m2.myspringsocial.validation.UserForm;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +45,8 @@ public class SignupController {
   }
 
   @PostMapping("/signup")
-  public String signupUser(@ModelAttribute UserForm form, WebRequest request) {
+  public String signupUser(@ModelAttribute @Valid UserForm form, WebRequest request,
+      BindingResult result) {
     try {
       Account account = accountService.create(form);
       signInUtils.doPostSignUp(account.getId(), request);

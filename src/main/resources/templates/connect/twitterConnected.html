@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Twitter</title>
-</head>
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layout/layout}">
 <body>
-<h3>Connected to Twitter</h3>
-
-<p>
-  You are now connected to your Twitter account.
-  Click <a href="/">here</a> to see your Twitter friends.
-</p>
+<section class="section" layout:fragment="content">
+  <div class="row">
+    <div class="col s12 offset-m3 m6">
+      <div class="card blue darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">Card Title</span>
+          <p>You are already connected to your Twitter account.</p>
+        </div>
+        <div class="card-action">
+          <a th:href="@{/}">Go back home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 </body>
 </html>
