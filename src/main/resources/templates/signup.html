@@ -25,10 +25,11 @@
         <input placeholder="Username" th:field="*{username}"/><br/>
       </div>
       <div class="row">
-        <span th:if="${#fields.hasErrors('password')}"
-              th:text="${#fields.errors('password')[0]}">
-        </span>
-        <input placeholder="Password : 6 characters minimum" type="password" th:field="*{password}"/>
+        <input placeholder="Password" type="password" th:field="*{password}"/>
+        <span class="helper-text">6 characters minimum</span>
+        <span class="helper-text"
+              th:if="${#fields.hasErrors('password')}"
+              th:text="${#fields.errors('password')[0]}"></span>
       </div>
 
       <div class="field">

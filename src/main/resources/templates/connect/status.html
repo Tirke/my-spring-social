@@ -4,11 +4,32 @@
     layout:decorate="~{layout/layout}">
 <body>
 <section class="section" layout:fragment="content">
-  <h1>Sign In</h1>
+  <h1>Your Connections</h1>
 
-  <h3>Your Connections</h3>
 
-  <div class="accountConnection" th:each="providerId : ${providerIds}">
+  <div class="row">
+    <div class="col s12 m6" th:each="providerId : ${providerIds}">
+      <div class="card">
+        <div class="card-image">
+          <img th:src="@{/images/twitter-logo.png}">
+          <span class="card-title" th:text="#{${providerId} + '.displayName'}">Provider Name</span>
+        </div>
+        <div class="card-content">
+          <p th:if="${!#lists.isEmpty(connectionMap[__${providerId}__])}">
+            You are connected to <span
+              th:text="#{${providerId} + '.displayName'}">provider name</span> as <span
+              th:text="${connectionMap[__${providerId}__][0].displayName}">user display name</span>.
+          </p>
+        </div>
+        <div class="card-action">
+          <a th:href="@{'/connect/' + ${providerId}}">Manage connection</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div th:each="providerId : ${providerIds}">
     <h4>
       <span>Image du provider</span>
       <span th:text="#{${providerId} + '.displayName'}">provider name</span></h4>
