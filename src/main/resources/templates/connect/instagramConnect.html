@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Instagram</title>
-</head>
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layout/layout}">
 <body>
-<h3>Connect to Instagram</h3>
-<form action="/connect/instagram" method="POST">
-  <div>
-    <p>You aren't connected to Instagram yet. Click the button to connect this application with your
-      Instagram account.</p>
-  </div>
-  <p>
-    <button type="submit">Connect to Instagram</button>
-  </p>
-</form>
+<section layout:fragment="content">
+  <h2>Connect to Instagram</h2>
 
-
+  <form th:action="@{/connect/instagram}" method="POST">
+    <p>
+      You aren't connected to Instagram yet. Click the button to connect this application with
+      your Instagram account.
+    </p>
+    <a class="waves-effect waves-light btn social instagram">
+      <i class="fa fa-instagram"></i>Connect to Instagram</a>
+  </form>
+</section>
 </body>
 </html>
