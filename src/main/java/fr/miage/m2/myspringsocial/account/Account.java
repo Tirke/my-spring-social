@@ -2,6 +2,7 @@ package fr.miage.m2.myspringsocial.account;
 
 import fr.miage.m2.myspringsocial.shared.Auditable;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,7 +25,8 @@ public class Account extends Auditable implements Serializable {
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private String id;
 
-  private String username; // unique
+  @Column(unique = true)
+  private String username;
   private String password;
   private String firstName;
   private String lastName;
