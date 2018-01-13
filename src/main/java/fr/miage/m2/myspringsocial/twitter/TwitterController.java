@@ -108,7 +108,8 @@ public class TwitterController {
         eventRepository.save(linkedTo);
       }
 
-      Event event = buildEvent(t, user).setLinkedTo(linkedTo == null ? null : linkedTo.getId());
+      Event event = buildEvent(t, user).setLinkedTo(linkedTo == null ? null : linkedTo.getId())
+          .setAuthor(null);
 
       eventRepository.save(event);
 
@@ -128,7 +129,7 @@ public class TwitterController {
               t.getCreatedAt()) //a LIKE doesn't have a date, we have to use the date of the liked tweet
           .setSocialMedia(SocialMedia.TWITTER)
           .setEventType(EventType.LIKE)
-          .setAuthor(twitter.userOperations().getScreenName())
+          .setAuthor(null)
           .setLinkedTo(linkedTo.getId())
           .setForUser(user);
       ;
@@ -150,10 +151,13 @@ public class TwitterController {
         .setSocialMedia(SocialMedia.TWITTER)
         .setEventType(getEventType(tweet))
         .setContent(tweet.getText())
-        .setAuthor(tweet.getFromUser())
+        .setAuthor(
+            tweet.getFromUser().equals(twitter.userOperations().getScreenName()) ? null
+                : tweet.getFromUser())
         .setMedias(tweet.getEntities().getMedia().stream().map(MediaEntity::getMediaUrl).collect(
             Collectors.toSet()))
         .setForUser(user);
+
   }
 
 
