@@ -9,11 +9,14 @@
   <div class="row">
     <form id="signin" th:action="@{/signin/authenticate}" method="post" class="col m12">
       <div>
-        <div class="error" th:if="${param.error eq 'bad_credentials'}">
+
+        <div class="card-panel red lighten-1 white-text"
+             th:if="${param.error[0] == 'bad_credentials'}">
           Your sign in information was incorrect.
-          Please try again or <a th:href="@{/signup}">sign up</a>.
+          Please try again or <a class="white-text has-underline" th:href="@{/signup}">sign up</a>.
         </div>
-        <div class="error" th:if="${param.error eq 'multiple_users'}">
+        <div class="card-panel red lighten-1 white-text"
+             th:if="${param.error[0] == 'multiple_users'}">
           Multiple local accounts are connected to the provider account.
           Try again with a different provider or with your username and password.
         </div>

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * This Adapter is used when an already known user signs in with Facebook Or Twitter
+ * This Adapter is used when an already known user (already used Fb or Twitter provider)
+ * signs in with Facebook Or Twitter.
  */
 @Slf4j
 @Component

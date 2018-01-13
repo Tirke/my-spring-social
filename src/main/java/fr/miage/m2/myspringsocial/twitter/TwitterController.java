@@ -40,11 +40,11 @@ public class TwitterController {
       return "redirect:/connect/twitter";
     }
 
-    if (eventRepository.findLastId(SocialMedia.twitter, EventType.like) == null) {
+    if (eventRepository.findLastId(SocialMedia.TWITTER, EventType.LIKE) == null) {
       saveEvents(twitter.timelineOperations().getUserTimeline());
     } else {
       //get the latest fetched tweet
-      long sinceId = Long.valueOf(eventRepository.findLastId(SocialMedia.twitter, EventType.like));
+      long sinceId = Long.valueOf(eventRepository.findLastId(SocialMedia.TWITTER, EventType.LIKE));
       long maxId = 0;
       //get latest tweet since the last fetch
       List<Tweet> liste = twitter.timelineOperations()
@@ -68,10 +68,10 @@ public class TwitterController {
 
       Event linkedTo = null;
 
-      if (getEventType(t).equals(EventType.share)) {
+      if (getEventType(t).equals(EventType.SHARE)) {
         linkedTo = buildEvent(t.getRetweetedStatus());
       }
-      if (getEventType(t).equals(EventType.comment)) {
+      if (getEventType(t).equals(EventType.COMMENT)) {
         linkedTo = buildEvent(
             twitter.timelineOperations().getStatus(t.getInReplyToStatusId()));
       }
@@ -93,9 +93,9 @@ public class TwitterController {
       Event event = new Event()
           .setId(UUID.randomUUID().toString())
           .setDate(
-              t.getCreatedAt()) //a like doesn't have a date, we have to use the date of the liked tweet
-          .setSocialMedia(SocialMedia.twitter)
-          .setEventType(EventType.like)
+              t.getCreatedAt()) //a LIKE doesn't have a date, we have to use the date of the liked tweet
+          .setSocialMedia(SocialMedia.TWITTER)
+          .setEventType(EventType.LIKE)
           .setAuthor(twitter.userOperations().getScreenName())
           .setLinkedTo(linkedTo.getId());
 
@@ -107,27 +107,26 @@ public class TwitterController {
 
 
   private Event buildEvent(Tweet tweet) {
-    Event event = new Event()
+    return new Event()
         .setId(tweet.getId())
         .setDate(tweet.getCreatedAt())
-        .setSocialMedia(SocialMedia.twitter)
+        .setSocialMedia(SocialMedia.TWITTER)
         .setEventType(getEventType(tweet))
         .setContent(tweet.getText())
         .setAuthor(tweet.getFromUser())
         .setMedias(tweet.getEntities().getMedia().stream().map(MediaEntity::getMediaUrl).collect(
             Collectors.toSet()));
-    return event;
   }
 
 
   private EventType getEventType(Tweet tweet) {
     if (tweet.isRetweet()) {
-      return EventType.share;
+      return EventType.SHARE;
     }
     if (tweet.getInReplyToStatusId() != null) {
-      return EventType.comment;
+      return EventType.COMMENT;
     }
-    return EventType.post;
+    return EventType.POST;
   }
 
 }

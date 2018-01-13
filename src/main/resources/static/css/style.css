@@ -2,6 +2,10 @@
   margin-left: 10px;
 }
 
-.provider-content{
+.provider-content {
   min-height: 100px;
+}
+
+.has-underline {
+  text-decoration: underline;
 }
