@@ -65,7 +65,12 @@ public class TwitterController {
 
 
   @GetMapping("/profile/twitter")
-  public String twitterProfile() {
+  public String twitterProfile(Model model) {
+    if (connectionRepo.findPrimaryConnection(Twitter.class) == null) {
+      return "redirect:/connect/twitter";
+    }
+
+    model.addAttribute("profile", twitter.userOperations().getUserProfile());
     return "twitter/profile";
   }
 

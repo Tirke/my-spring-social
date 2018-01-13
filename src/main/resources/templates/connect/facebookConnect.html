@@ -7,7 +7,7 @@
 <section  layout:fragment="content">
   <h2>Connect to Facebook</h2>
   <form th:action="@{/connect/facebook}" method="POST">
-    <input type="hidden" name="scope" value="user_posts"/>
+    <input type="hidden" name="scope" value="user_posts, email, public_profile, user_about_me, user_birthday, user_education_history, user_friends, user_hometown, user_location, user_relationship_details, user_relationships, user_religion_politics, user_work_history,"/>
     <div class="mb10">
       You aren't connected to Facebook yet. Click the button to connect this application with
       your Facebook account.

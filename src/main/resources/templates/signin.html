@@ -3,7 +3,7 @@
     xmlns:th="http://www.thymeleaf.org"
     layout:decorate="~{layout/layout}">
 <body>
-<section  layout:fragment="content">
+<section layout:fragment="content">
   <h2>Sign In</h2>
 
   <div class="row">
@@ -41,10 +41,12 @@
     </form>
   </div>
 
+
   <div class="row">
     <div class="col">
       <form th:action="@{/signin/facebook}" method="POST">
-        <input type="hidden" name="scope" value="user_posts, user_photos"/>
+        <input type="hidden" name="scope"
+               value="user_posts, email, public_profile, user_about_me, user_birthday, user_education_history, user_friends, user_hometown, user_location, user_relationship_details, user_relationships, user_religion_politics, user_work_history"/>
         <button class="waves-effect waves-light btn social facebook" type="submit">
           <i class="fa fa-facebook"></i> Sign in with Facebook
         </button>

@@ -1,9 +1,37 @@
 <html
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:th="http://www.thymeleaf.org"
     layout:decorate="~{layout/layout}">
 <body>
 <section layout:fragment="content">
-  <h2>Facebook Profile</h2>
+  <h2>Hello, <span th:text="${profile.firstName}"></span>!</h2>
+
+  <div class="profile-container">
+    <header class="profile-header">
+      <div class="bio">
+        <img th:src="${profile.getCover().getSource()}" alt="background" class="bg">
+        <div class="desc">
+          <h3 th:text="${profile.getName()}"></h3>
+          <span th:text="${profile.getAbout()}"></span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="profile-infos">
+        <p th:text="${profile.getEmail()}"></p>
+        <p>Date de naissance: <span th:text="${profile.getBirthday()}"></span></p>
+      </div>
+
+      <form class="is-centered" th:action="@{/connect/facebook}" method="post">
+        <button class="btn waves-effect waves-light deep-orange darken-1" type="submit">
+          <i class="fa fa-sign-out"></i>
+          Disconnect
+        </button>
+        <input type="hidden" name="_method" value="delete"/>
+      </form>
+    </div>
+  </div>
 </section>
 </body>
 </html>
