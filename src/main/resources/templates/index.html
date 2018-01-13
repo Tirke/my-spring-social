@@ -13,22 +13,26 @@
         <div class="card-content white-text">
           <span class="card-title" th:text="${event?.eventType}"/>
           <p th:text="${event?.content}"/>
+          <div th:each="media : ${event?.medias}">
+            <img th:src="${media}" height="80" width="80"/>
+          </div>
+
         </div>
         <div class="card-action">
           <p th:text="${event?.date}"/>
           <p th:text="${event?.author}"/>
         </div>
         <div th:switch="${event?.eventType}">
-          <p th:case="${T(fr.miage.m2.myspringsocial.event.EventType).like}"
+          <p th:case="${T(fr.miage.m2.myspringsocial.event.EventType).LIKE}"
              class="btn-floating halfway-fab waves-effect waves-light blue"><i
               class="material-icons">favorite</i></p>
-          <p th:case="${T(fr.miage.m2.myspringsocial.event.EventType).comment}"
+          <p th:case="${T(fr.miage.m2.myspringsocial.event.EventType).COMMENT}"
              class="btn-floating halfway-fab waves-effect waves-light blue"><i
               class="material-icons">mode_comment</i></p>
-          <p th:case="${T(fr.miage.m2.myspringsocial.event.EventType).post}"
+          <p th:case="${T(fr.miage.m2.myspringsocial.event.EventType).POST}"
              class="btn-floating halfway-fab waves-effect waves-light blue"><i
               class="material-icons">local_post_office</i></p>
-          <p th:case="${T(fr.miage.m2.myspringsocial.event.EventType).share}"
+          <p th:case="${T(fr.miage.m2.myspringsocial.event.EventType).SHARE}"
              class="btn-floating halfway-fab waves-effect waves-light blue"><i
               class="material-icons">share</i></p>
 
