@@ -1,6 +1,5 @@
 package fr.miage.m2.myspringsocial.config;
 
-
 import fr.miage.m2.myspringsocial.account.AccountDetailsService;
 import fr.miage.m2.myspringsocial.account.SocialAccountDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
