@@ -25,20 +25,33 @@
       Spring Social
     </a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li><a th:href="@{/}">
-        Home
-      </a></li>
-      <li sec:authorize="isAuthenticated()"><a th:href="@{/connect}">
-        Connections
-      </a></li>
-      <li sec:authorize="!isAuthenticated()"><a th:href="@{/signin}">
-        Sign in
-      </a></li>
-      <li sec:authorize="!isAuthenticated()"><a th:href="@{/signup}">
-        Sign up
-      </a></li>
-      <li id="logoutLink" sec:authorize="isAuthenticated()"><a>
-        Sign out <span sec:authentication="name"></span></a>
+      <li th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}">
+        <a th:href="@{/}">
+          Home
+        </a>
+      </li>
+      <li sec:authorize="isAuthenticated()"
+          th:classappend="${#httpServletRequest.getRequestURI().startsWith('/connect') ? 'active':''}">
+        <a th:href="@{/connect}">
+          Connections
+        </a>
+      </li>
+      <li sec:authorize="!isAuthenticated()"
+          th:classappend="${#httpServletRequest.getRequestURI().startsWith('/signin') ? 'active':''}">
+        <a th:href="@{/signin}">
+          Sign in
+        </a>
+      </li>
+      <li sec:authorize="!isAuthenticated()"
+          th:classappend="${#httpServletRequest.getRequestURI().startsWith('/signup') ? 'active':''}">
+        <a th:href="@{/signup}">
+          Sign up
+        </a>
+      </li>
+      <li id="logoutLink" sec:authorize="isAuthenticated()">
+        <a>
+          Sign out <span sec:authentication="name"></span>
+        </a>
         <form method="POST" th:action="@{/signout}" id="logoutForm"></form>
       </li>
     </ul>
