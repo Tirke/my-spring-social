@@ -7,7 +7,7 @@
   <h2>Hello, <span th:text="${profile.firstName}"></span>!</h2>
 
   <div class="profile-container">
-    <header class="profile-header">
+    <header class="facebook-header">
       <div class="bio">
         <img th:src="${profile.getCover().getSource()}" alt="background" class="bg">
         <div class="desc">
@@ -18,9 +18,17 @@
     </header>
 
     <div class="content">
-      <div class="profile-infos">
-        <p th:text="${profile.getEmail()}"></p>
-        <p>Date de naissance: <span th:text="${profile.getBirthday()}"></span></p>
+      <div class="data">
+        <ul class="is-centered">
+          <li>
+            <span th:text="${totalFriends}"></span>
+            <span>Friends</span>
+          </li>
+          <li>
+            <span th:text="${age}"></span>
+            <span>Age</span>
+          </li>
+        </ul>
       </div>
 
       <form class="is-centered" th:action="@{/connect/facebook}" method="post">

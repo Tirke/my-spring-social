@@ -18,15 +18,19 @@
   margin-bottom: 10px;
 }
 
-.profile-infos {
-  padding: 10px;
-}
-
-.profile-header {
+.twitter-header {
   display: block;
   overflow: hidden;
   position: relative;
   padding-bottom: 2em;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.facebook-header {
+  display: block;
+  overflow: hidden;
+  position: relative;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
@@ -42,6 +46,8 @@
 
 .bg {
   border-bottom: 8px solid #5cc0ff;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 
 .bio:hover > .desc {
