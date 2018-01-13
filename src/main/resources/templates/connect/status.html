@@ -9,12 +9,12 @@
 
   <div class="row">
     <div class="col s12 m6" th:each="providerId : ${providerIds}">
-      <div class="card">
+      <div class="card z-depth-3">
         <div class="card-image">
-          <img th:src="@{/images/twitter-logo.png}">
+          <img th:src="@{${'/images/' + providerId + '-logo.png'}}">
           <span class="card-title" th:text="#{${providerId} + '.displayName'}">Provider Name</span>
         </div>
-        <div class="card-content">
+        <div class="card-content provider-content">
           <p th:if="${!#lists.isEmpty(connectionMap[__${providerId}__])}">
             You are connected to <span
               th:text="#{${providerId} + '.displayName'}">provider name</span> as <span
@@ -26,25 +26,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-
-  <div th:each="providerId : ${providerIds}">
-    <h4>
-      <span>Image du provider</span>
-      <span th:text="#{${providerId} + '.displayName'}">provider name</span></h4>
-    <p>
- 				<span th:if="${!#lists.isEmpty(connectionMap[__${providerId}__])}">
-					You are connected to <span
-            th:text="#{${providerId} + '.displayName'}">provider name</span> as <span
-            th:text="${connectionMap[__${providerId}__][0].displayName}">user display name</span>.
-				</span>
-      <span th:if="${#lists.isEmpty(connectionMap[__${providerId}__])}">
-					You are not yet connected to <span th:text="#{${providerId} + '.displayName'}">provider name</span>.
-				</span>
-      Click <a th:href="@{'/connect/' + ${providerId}}">here</a> to manage your <span
-        th:text="#{${providerId} + '.displayName'}">provider name</span> connection.
-    </p>
   </div>
 </section>
 </body>

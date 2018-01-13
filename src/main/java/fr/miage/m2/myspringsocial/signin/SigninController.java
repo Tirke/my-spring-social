@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class SigninController {
 
   @GetMapping("/signin")
-  public void signin() {
-
+  public String signin() {
+    return "signin";
   }
 
 }

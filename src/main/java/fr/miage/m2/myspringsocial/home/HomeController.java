@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class HomeController {
 
-
   @GetMapping("/")
   public String home(@CurrentUser AccountDetails user, Model model) {
     // CurrentUser is a way to retrieve the current user , null when anonymous

@@ -1,7 +1,8 @@
 package fr.miage.m2.myspringsocial.config;
 
-import fr.miage.m2.myspringsocial.service.AccountDetailsService;
-import fr.miage.m2.myspringsocial.service.SocialAccountDetailsService;
+
+import fr.miage.m2.myspringsocial.account.AccountDetailsService;
+import fr.miage.m2.myspringsocial.account.SocialAccountDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +19,10 @@ import org.springframework.social.security.SocialUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private SocialAccountDetailsService socialAccountDetailsService;
   private AccountDetailsService accountDetailsService;
 
   @Autowired
-  public SecurityConfig(
-      SocialAccountDetailsService socialAccountDetailsService,
-      AccountDetailsService accountDetailsService) {
-    this.socialAccountDetailsService = socialAccountDetailsService;
+  public SecurityConfig(AccountDetailsService accountDetailsService) {
     this.accountDetailsService = accountDetailsService;
   }
 
@@ -38,7 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public SocialUserDetailsService socialUserDetailsService() {
     return new SocialAccountDetailsService();
   }
-
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -57,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .formLogin().loginPage("/signin")
         .loginProcessingUrl("/signin/authenticate")
-        .defaultSuccessUrl("/connect")
+        .defaultSuccessUrl("/")
         .failureUrl("/signin?error=bad_credentials")
         .and().logout().logoutUrl("/signout").deleteCookies("JSESSIONID", "SESSION")
         .and().authorizeRequests()

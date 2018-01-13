@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.encrypt.Encryptors;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
@@ -28,11 +27,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
     this.dataSource = dataSource;
   }
 
-  @Bean
-  public SignInAdapter authSignInAdapter() {
-    return new SimpleSigninAdapter(new HttpSessionRequestCache());
-  }
-
+  
   @Override
   public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator locator) {
     return new JdbcUsersConnectionRepository(dataSource, locator, Encryptors.noOpText());

@@ -5,11 +5,9 @@ import fr.miage.m2.myspringsocial.account.AccountDetails;
 import fr.miage.m2.myspringsocial.account.AccountForm;
 import fr.miage.m2.myspringsocial.account.AccountService;
 import fr.miage.m2.myspringsocial.account.UsernameNotUnique;
+import fr.miage.m2.myspringsocial.signin.SigninUtils;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
@@ -54,11 +52,8 @@ public class SignupController {
     try {
       Account account = accountService.create(form);
       AccountDetails accountDetails = new AccountDetails(account);
-      Authentication authentication = new UsernamePasswordAuthenticationToken(accountDetails, null,
-          accountDetails.getAuthorities());
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+      SigninUtils.signin(accountDetails);
       signInUtils.doPostSignUp(account.getUsername(), request);
-      // Then our SignInAdapter in SocialConfig will trigger to effectively signin the user
       return "redirect:/";
     } catch (UsernameNotUnique e) {
       return String.format("redirect:/error?message=%s", e.getMessage());

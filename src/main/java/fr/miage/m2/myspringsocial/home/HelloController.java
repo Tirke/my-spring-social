@@ -1,10 +1,18 @@
 package fr.miage.m2.myspringsocial.home;
 
 
-import org.springframework.stereotype.Controller;
+import fr.miage.m2.myspringsocial.account.AccountDetails;
+import fr.miage.m2.myspringsocial.config.CurrentUser;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HelloController {
+
+  @GetMapping("/test/user")
+  public AccountDetails getUser(@CurrentUser AccountDetails user) {
+    return user;
+  }
 
   /*private Facebook facebook;
   private Twitter twitter;

@@ -37,8 +37,10 @@
       <li sec:authorize="!isAuthenticated()"><a th:href="@{/signup}">
         Sign up
       </a></li>
-      <li sec:authorize="isAuthenticated()"><a>
-        Sign out <span sec:authentication="name"></span></a></li>
+      <li id="logoutLink" sec:authorize="isAuthenticated()"><a>
+        Sign out <span sec:authentication="name"></span></a>
+        <form method="POST" th:action="@{/signout}" id="logoutForm"></form>
+      </li>
     </ul>
   </div>
 </nav>
@@ -49,5 +51,17 @@
 
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/js/materialize.min.js"></script>
+<script>
+  (() => {
+    const logoutLink = document.getElementById('logoutLink')
+    const logoutForm = document.getElementById('logoutForm')
+
+    if (logoutLink) {
+      logoutLink.addEventListener('click', () => {
+        logoutForm.submit()
+      })
+    }
+  })()
+</script>
 </body>
 </html>

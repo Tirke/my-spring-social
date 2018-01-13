@@ -40,15 +40,15 @@
   </div>
 
   <div class="row">
-    <div class="col m6">
+    <div class="col">
       <form th:action="@{/signin/facebook}" method="POST">
-        <input type="hidden" name="scope" value="user_posts,user_photos"/>
+        <input type="hidden" name="scope" value="user_posts, user_photos"/>
         <button class="waves-effect waves-light btn social facebook" type="submit">
           <i class="fa fa-facebook"></i> Sign in with Facebook
         </button>
       </form>
     </div>
-    <div class="col m6">
+    <div class="col">
       <form th:action="@{/signin/twitter}" method="POST">
         <button class="waves-effect waves-light btn social twitter" type="submit">
           <i class="fa fa-twitter"></i> Sign in with Twitter
