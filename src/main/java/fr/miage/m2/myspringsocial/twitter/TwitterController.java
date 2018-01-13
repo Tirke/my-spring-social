@@ -1,5 +1,7 @@
 package fr.miage.m2.myspringsocial.twitter;
 
+import fr.miage.m2.myspringsocial.account.AccountDetails;
+import fr.miage.m2.myspringsocial.config.CurrentUser;
 import fr.miage.m2.myspringsocial.event.Event;
 import fr.miage.m2.myspringsocial.event.EventRepository;
 import fr.miage.m2.myspringsocial.event.EventType;
@@ -34,22 +36,23 @@ public class TwitterController {
   }
 
   @GetMapping("/twitter")
-  public String helloTwitter(Model model) {
+  public String helloTwitter(Model model, @CurrentUser AccountDetails user) {
     if (connectionRepo.findPrimaryConnection(Twitter.class) == null) {
       return "redirect:/connect/twitter";
     }
 
-    if (eventRepository.findLastId(SocialMedia.TWITTER, EventType.LIKE) == null) {
-      saveEvents(twitter.timelineOperations().getUserTimeline());
+    if (eventRepository.findLastId(SocialMedia.TWITTER, EventType.LIKE, user.getUserId()) == null) {
+      saveEvents(twitter.timelineOperations().getUserTimeline(), user.getUserId());
     } else {
       //get the latest fetched tweet
-      long sinceId = Long.valueOf(eventRepository.findLastId(SocialMedia.TWITTER, EventType.LIKE));
+      long sinceId = Long.valueOf(
+          eventRepository.findLastId(SocialMedia.TWITTER, EventType.LIKE, user.getUserId()));
       long maxId = 0;
       //get latest tweet since the last fetch
       List<Tweet> liste = twitter.timelineOperations()
           .getUserTimeline(numberFetched, sinceId, maxId);
       while (liste.size() > 0) {
-        saveEvents(liste);
+        saveEvents(liste, user.getUserId());
         Tweet tweet = liste.stream()
             .min(Comparator.comparing(Tweet::getId))
             .get();
@@ -57,6 +60,19 @@ public class TwitterController {
         //check if there are still some tweet that need to be fetched
         liste = twitter.timelineOperations().getUserTimeline(numberFetched, sinceId, maxId);
       }
+    }
+
+    //get the latest favorites
+    List<Tweet> favorites = twitter.timelineOperations().getFavorites();
+
+    List<String> alreadyFetched = eventRepository
+        .getLinkedTo(SocialMedia.TWITTER, EventType.LIKE, user.getUserId());
+    //remove from the favorites the one we already have
+    favorites = favorites.stream().filter(tweet -> !alreadyFetched.contains(tweet.getId()))
+        .collect(Collectors.toList());
+
+    if (favorites.size() > 0) {
+      saveLike(favorites, user.getUserId());
     }
 
     return "index";
@@ -73,41 +89,49 @@ public class TwitterController {
     return "twitter/profile";
   }
 
-  private void saveEvents(List<Tweet> tweetList) {
+  /**
+   * Persist tweet, retweet and comment
+   */
+  private void saveEvents(List<Tweet> tweetList, String user) {
     tweetList.forEach(t -> {
 
       Event linkedTo = null;
 
       if (getEventType(t).equals(EventType.SHARE)) {
-        linkedTo = buildEvent(t.getRetweetedStatus());
+        linkedTo = buildEvent(t.getRetweetedStatus(), user);
       }
       if (getEventType(t).equals(EventType.COMMENT)) {
         linkedTo = buildEvent(
-            twitter.timelineOperations().getStatus(t.getInReplyToStatusId()));
+            twitter.timelineOperations().getStatus(t.getInReplyToStatusId()), user);
       }
       if (linkedTo != null) {
         eventRepository.save(linkedTo);
       }
 
-      Event event = buildEvent(t).setLinkedTo(linkedTo == null ? null : linkedTo.getId());
+      Event event = buildEvent(t, user).setLinkedTo(linkedTo == null ? null : linkedTo.getId());
 
       eventRepository.save(event);
 
     });
   }
 
-  private void saveLike(List<Tweet> tweetList) {
+  /**
+   * Persist favorites
+   */
+  private void saveLike(List<Tweet> tweetList, String user) {
     tweetList.forEach(t -> {
-      Event linkedTo = buildEvent(t);
+      Event linkedTo = buildEvent(t, user);
 
       Event event = new Event()
-          .setId(UUID.randomUUID().toString())
+          .setId(UUID.randomUUID().toString()) //favorites are not new tweet, we add an id
           .setDate(
               t.getCreatedAt()) //a LIKE doesn't have a date, we have to use the date of the liked tweet
           .setSocialMedia(SocialMedia.TWITTER)
           .setEventType(EventType.LIKE)
           .setAuthor(twitter.userOperations().getScreenName())
-          .setLinkedTo(linkedTo.getId());
+          .setLinkedTo(linkedTo.getId())
+          .setForUser(user);
+      ;
 
       eventRepository.save(linkedTo);
       eventRepository.save(event);
@@ -116,7 +140,10 @@ public class TwitterController {
   }
 
 
-  private Event buildEvent(Tweet tweet) {
+  /**
+   * Create a new event based on tweet
+   */
+  private Event buildEvent(Tweet tweet, String user) {
     return new Event()
         .setId(tweet.getId())
         .setDate(tweet.getCreatedAt())
@@ -125,10 +152,14 @@ public class TwitterController {
         .setContent(tweet.getText())
         .setAuthor(tweet.getFromUser())
         .setMedias(tweet.getEntities().getMedia().stream().map(MediaEntity::getMediaUrl).collect(
-            Collectors.toSet()));
+            Collectors.toSet()))
+        .setForUser(user);
   }
 
 
+  /**
+   * Return which type of tweet this is
+   */
   private EventType getEventType(Tweet tweet) {
     if (tweet.isRetweet()) {
       return EventType.SHARE;

@@ -35,6 +35,7 @@ public class Event {
   @ElementCollection
   private Set<String> medias;
   private String linkedTo;
+  private String forUser;
 
   // public Event getLinkedTo() {
   //  return eventRepository.findOne(new EventId().setId(linkedTo).setSocialMedia(this.socialMedia));
