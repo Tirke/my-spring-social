@@ -11,12 +11,12 @@
       <div>
 
         <div class="card-panel red lighten-1 white-text"
-             th:if="${param.error[0] == 'bad_credentials'}">
+             th:if="${param.error != null && param.error[0] == 'bad_credentials'}">
           Your sign in information was incorrect.
           Please try again or <a class="white-text has-underline" th:href="@{/signup}">sign up</a>.
         </div>
         <div class="card-panel red lighten-1 white-text"
-             th:if="${param.error[0] == 'multiple_users'}">
+             th:if="${param.error != null  && param.error[0] == 'multiple_users'}">
           Multiple local accounts are connected to the provider account.
           Try again with a different provider or with your username and password.
         </div>

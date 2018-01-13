@@ -12,13 +12,16 @@
       <div class="card z-depth-3">
         <div class="card-image">
           <img th:src="@{${'/images/' + providerId + '-logo.png'}}">
-          <span class="card-title" th:text="#{${providerId} + '.displayName'}">Provider Name</span>
+          <span class="card-title" th:text="#{${providerId} + '.displayName'}"></span>
         </div>
         <div class="card-content provider-content">
           <p th:if="${!#lists.isEmpty(connectionMap[__${providerId}__])}">
             You are connected to <span
-              th:text="#{${providerId} + '.displayName'}">provider name</span> as <span
-              th:text="${connectionMap[__${providerId}__][0].displayName}">user display name</span>.
+              th:text="#{${providerId} + '.displayName'}"></span> as <span
+              th:text="${connectionMap[__${providerId}__][0].displayName}"></span>.
+          </p>
+          <p th:if="${#lists.isEmpty(connectionMap[__${providerId}__])}">
+            You are not yet connected to <span th:text="#{${providerId} + '.displayName'}"></span>.
           </p>
         </div>
         <div class="card-action">

@@ -9,13 +9,20 @@
     <div class="col s12 offset-m3 m6">
       <div class="card blue darken-1">
         <div class="card-content white-text">
-          <span class="card-title">Card Title</span>
           <p>You are already connected to your Twitter account.</p>
         </div>
         <div class="card-action">
-          <a th:href="@{/}">Go back home</a>
+          <a th:href="@{/}">See your Twitter Profile</a>
         </div>
       </div>
+
+      <form th:action="@{/connect/twitter}" method="post">
+        <button class="btn waves-effect waves-light deep-orange darken-1" type="submit">
+          <i class="fa fa-sign-out"></i>
+          Disconnect from Twitter
+        </button>
+        <input type="hidden" name="_method" value="delete"/>
+      </form>
     </div>
   </div>
 </section>

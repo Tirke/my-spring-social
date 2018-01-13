@@ -1,14 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Facebook</title>
-</head>
+<html
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layout/layout}">
 <body>
-<h3>Connected to Facebook</h3>
-<p>
-  You are now connected to your Facebook account.
-  Click <a href="/">here</a> to see some entries from your Facebook feed.
-</p>
+<section class="section" layout:fragment="content">
+  <div class="row">
+    <div class="col s12 offset-m3 m6">
+      <div class="card blue darken-3">
+        <div class="card-content white-text">
+          <p>You are already connected to your Facebook account.</p>
+        </div>
+        <div class="card-action">
+          <a th:href="@{/}">See your Facebook profile</a>
+        </div>
+      </div>
+
+      <form th:action="@{/connect/facebook}" method="post">
+        <button class="btn waves-effect waves-light deep-orange darken-1" type="submit">
+          <i class="fa fa-sign-out"></i>
+          Disconnect from Facebook
+        </button>
+        <input type="hidden" name="_method" value="delete"/>
+      </form>
+    </div>
+  </div>
+</section>
 </body>
 </html>
