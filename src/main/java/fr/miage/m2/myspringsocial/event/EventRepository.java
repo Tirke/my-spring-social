@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface EventRepository extends JpaRepository<Event, EventId> {
 
 
-  List<Event> findAllByForUser(String user);
+  List<Event> findAllByForUser(String user, String author);
 
   @Query("SELECT max(e.id) FROM Event e WHERE e.socialMedia=?1 AND e.eventType <> ?2 AND e.forUser=?3")
   String findLastId(SocialMedia socialMedia, EventType eventType, String user);

@@ -23,7 +23,7 @@ public class HomeController {
   @GetMapping("/")
   public String home(@CurrentUser AccountDetails user, Model model) {
     // CurrentUser is a way to retrieve the current user , null when anonymous
-    List<Event> event = er.findAll();
+    List<Event> event = er.findAllByForUser(user.getUserId(),null);
     model.addAttribute("events", event);
     return "index";
   }
