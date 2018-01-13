@@ -4,7 +4,7 @@
     xmlns:th="http://www.thymeleaf.org"
     layout:decorate="~{layout/layout}">
 <body>
-<section class="section" layout:fragment="content">
+<section  layout:fragment="content">
   <div class="row">
     <div class="col s12 offset-m3 m6">
       <div class="card blue darken-1">
@@ -12,7 +12,7 @@
           <p>You are already connected to your Twitter account.</p>
         </div>
         <div class="card-action">
-          <a th:href="@{/}">See your Twitter Profile</a>
+          <a class="white-text" th:href="@{/profile/twitter}">See your Twitter Profile</a>
         </div>
       </div>
 

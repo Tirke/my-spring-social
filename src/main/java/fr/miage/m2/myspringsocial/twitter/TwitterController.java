@@ -63,6 +63,12 @@ public class TwitterController {
     return "index";
   }
 
+
+  @GetMapping("/profile/twitter")
+  public String twitterProfile() {
+    return "twitter/profile";
+  }
+
   private void saveEvents(List<Tweet> tweetList) {
     tweetList.forEach(t -> {
 
