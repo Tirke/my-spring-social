@@ -4,12 +4,11 @@
     layout:decorate="~{layout/layout}">
 <body>
 <section class="section" layout:fragment="content">
-  <h1 class="title">Sign In</h1>
+  <h2>Sign In</h2>
 
   <div class="row">
     <form id="signin" th:action="@{/signin/authenticate}" method="post" class="col m12">
-
-      <div class="formInfo">
+      <div>
         <div class="error" th:if="${param.error eq 'bad_credentials'}">
           Your sign in information was incorrect.
           Please try again or <a th:href="@{/signup}">sign up</a>.

@@ -5,29 +5,33 @@
 <body>
 <section class="section" layout:fragment="content">
 
-  <h1>Sign Up</h1>
-
+  <h2>Sign Up</h2>
 
   <div class="row">
-    <form id="signup" th:action="@{/signup}" method="post" class="col m12" th:object="${user}">
+    <form id="signup" th:action="@{/signup}" method="post" class="col m12"
+          th:object="${accountForm}">
 
-      <div class="error" th:if="${#fields.hasErrors('*')}">
+      <div th:if="${#fields.hasAnyErrors()}" class="card-panel red lighten-1 white-text">
         Unable to sign up. Please fix the errors below and resubmit.
       </div>
 
       <div class="row">
-        <input placeholder="First name" th:field="*{firstName}"/><br/>
+        <input placeholder="First name" th:field="*{firstName}"/>
       </div>
       <div class="row">
-        <input placeholder="Last name" th:field="*{lastName}"/><br/>
+        <input placeholder="Last name" th:field="*{lastName}"/>
       </div>
       <div class="row">
-        <input placeholder="Username" th:field="*{username}"/><br/>
+        <input placeholder="Username" th:field="*{username}"/>
+        <span class="helper-text red-text"
+              th:if="${#fields.hasErrors('username')}"
+              th:text="${#fields.errors('username')[0]}"></span>
       </div>
       <div class="row">
         <input placeholder="Password" type="password" th:field="*{password}"/>
-        <span class="helper-text">6 characters minimum</span>
         <span class="helper-text"
+              th:unless="${#fields.hasErrors('password')}">6 characters minimum</span>
+        <span class="helper-text red-text"
               th:if="${#fields.hasErrors('password')}"
               th:text="${#fields.errors('password')[0]}"></span>
       </div>
