@@ -2,11 +2,32 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     xmlns:th="http://www.thymeleaf.org"
     layout:decorate="~{layout/layout}">
+
 <body>
 <section  layout:fragment="content">
   <h1 class="title">Spring Social</h1>
 
-  <!--<span th:text="${name}"></span>-->
+  <div th:each="event : ${events}">
+      <div class="col s12 m6">
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span class="card-title" th:text="${event?.eventType}"/>
+            <p th:text="${event?.content}"/>
+          </div>
+          <div class="card-action">
+            <p th:text="${event?.date}"/>
+            <p th:text="${event?.author}"/>
+          </div>
+          <div th:switch="${event?.eventType}">
+            <p th:case="'T(fr.miage.m2.myspringsocial'"><a class="btn-floating halfway-fab waves-effect waves-light blue"><i class="material-icons">favorite</i></a></p>
+            <p th:case="#{roles.manager}">User is a manager</p>
+          </div>
+
+
+        </div>
+      </div>
+  </div>
+
 </section>
 </body>
 </html>
