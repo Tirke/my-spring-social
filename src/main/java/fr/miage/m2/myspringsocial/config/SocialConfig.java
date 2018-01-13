@@ -1,6 +1,5 @@
 package fr.miage.m2.myspringsocial.config;
 
-import fr.miage.m2.myspringsocial.signin.SimpleSigninAdapter;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,6 @@ import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
-import org.springframework.social.connect.web.SignInAdapter;
 
 @Configuration
 @EnableSocial
@@ -27,7 +25,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
     this.dataSource = dataSource;
   }
 
-  
+
   @Override
   public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator locator) {
     return new JdbcUsersConnectionRepository(dataSource, locator, Encryptors.noOpText());

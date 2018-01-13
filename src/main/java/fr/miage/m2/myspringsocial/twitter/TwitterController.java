@@ -20,11 +20,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class TwitterController {
 
+  private final int numberFetched = 3;
   private Twitter twitter;
   private ConnectionRepository connectionRepo;
   private EventRepository eventRepository;
-
-  private final int numberFetched = 3;
 
   @Autowired
   public TwitterController(Twitter twitter, ConnectionRepository connectionRepo,

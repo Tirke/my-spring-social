@@ -1,7 +1,7 @@
 package fr.miage.m2.myspringsocial.home;
 
-import fr.miage.m2.myspringsocial.config.CurrentUser;
 import fr.miage.m2.myspringsocial.account.AccountDetails;
+import fr.miage.m2.myspringsocial.config.CurrentUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
