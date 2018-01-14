@@ -26,9 +26,8 @@ public interface EventRepository extends JpaRepository<Event, EventId> {
 
   @Query("SELECT e.id FROM Event e WHERE e.socialMedia=?1 AND e.eventType <> ?2 AND e.forUser=?3 AND e.author=null")
   List<String> getAllId(SocialMedia socialMedia, EventType eventType, String user);
-
-//  boolean existsByIdAndSocialMedia(String id, SocialMedia socialMedia);
-//  boolean existsById();
-
+  
+  @Query("SELECT e.author FROM Event e WHERE e.socialMedia=?1 AND e.eventType = ?2 AND e.forUser=?3 AND e.linkedTo=?4")
+  List<String> getIdLinkedTo(SocialMedia socialMedia, EventType eventType, String user, String linkedTo);
 
 }

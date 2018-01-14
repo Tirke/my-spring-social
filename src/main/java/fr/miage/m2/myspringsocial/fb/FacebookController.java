@@ -18,12 +18,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Post;
+import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +38,7 @@ public class FacebookController {
   private ConnectionRepository connectionRepo;
   private EventRepository eventRepository;
 
-  private final int max = 1;
+  private final int max = 100;
 
   @Autowired
   public FacebookController(Facebook facebook,
@@ -103,10 +105,11 @@ public class FacebookController {
 
     }
 
-    // on cherche tous les posts pour voir si des commentaires ont été ajoutés
+    //get all posts
     List<String> ids = eventRepository
         .getAllId(SocialMedia.FACEBOOK, EventType.LIKE, user.getUserId());
     ids.forEach(id -> {
+      saveLikedBy(id, user.getUserId());
       saveComments(id, user.getUserId());
     });
 
@@ -117,7 +120,9 @@ public class FacebookController {
     List<EventType> eventTypes = new ArrayList<>();
     eventTypes.add(EventType.COMMENT);
     Date dateComment = eventRepository
-        .getMaxDateFromEvent(eventRepository.findOne(new EventId().setId(id).setSocialMedia(SocialMedia.FACEBOOK)), SocialMedia.FACEBOOK, eventTypes, user);
+        .getMaxDateFromEvent(
+            eventRepository.findOne(new EventId().setId(id).setSocialMedia(SocialMedia.FACEBOOK)),
+            SocialMedia.FACEBOOK, eventTypes, user);
 
     Long since2 = null;
     if (dateComment != null) {
@@ -196,6 +201,7 @@ public class FacebookController {
     });
   }
 
+
   private void saveComment(String linkedTo, List<Comment> comments, String user) {
 
     comments.forEach((Comment comment) -> {
@@ -222,8 +228,33 @@ public class FacebookController {
                 .setSocialMedia(SocialMedia.FACEBOOK)));
         eventRepository.save(event);
       }
-
-
     });
   }
+
+  private void saveLikedBy(String postId, String user) {
+
+    //get all likes for this post
+    List<String> likes = facebook.likeOperations().getLikes(postId).stream()
+        .map(Reference::getName)
+        .collect(Collectors.toList());
+    System.out.println(likes.size());
+    //get the likes we already fetched
+    List<String> fetched = eventRepository
+        .getIdLinkedTo(SocialMedia.FACEBOOK, EventType.LIKED_BY, user, postId);
+
+    likes.removeAll(fetched);
+    //save the likes we need
+    likes.forEach(name -> eventRepository.save(new Event()
+        .setLinkedTo(eventRepository
+            .findOne(new EventId().setId(postId).setSocialMedia(SocialMedia.FACEBOOK)))
+        .setEventType(EventType.LIKED_BY)
+        .setForUser(user)
+        .setSocialMedia(SocialMedia.FACEBOOK)
+        .setAuthor(name)
+        .setId(UUID.randomUUID().toString())
+        .setDate(new Date())));
+  }
+
 }
+
+
