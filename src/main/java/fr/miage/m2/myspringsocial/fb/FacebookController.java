@@ -117,7 +117,7 @@ public class FacebookController {
     List<EventType> eventTypes = new ArrayList<>();
     eventTypes.add(EventType.COMMENT);
     Date dateComment = eventRepository
-        .getMaxDateFromEvent(id, SocialMedia.FACEBOOK, eventTypes, user);
+        .getMaxDateFromEvent(eventRepository.findOne(new EventId().setId(id).setSocialMedia(SocialMedia.FACEBOOK)), SocialMedia.FACEBOOK, eventTypes, user);
 
     Long since2 = null;
     if (dateComment != null) {
