@@ -118,7 +118,7 @@ public class TwitterController {
         eventRepository.save(linkedTo);
       }
 
-      Event event = buildEvent(t, user).setLinkedTo(linkedTo == null ? null : linkedTo.getId())
+      Event event = buildEvent(t, user).setLinkedTo(linkedTo == null ? null : linkedTo)
           .setAuthor(null);
 
       eventRepository.save(event);
@@ -140,7 +140,7 @@ public class TwitterController {
           .setSocialMedia(SocialMedia.TWITTER)
           .setEventType(EventType.LIKE)
           .setAuthor(null)
-          .setLinkedTo(linkedTo.getId())
+          .setLinkedTo(linkedTo)
           .setForUser(user);
       ;
 

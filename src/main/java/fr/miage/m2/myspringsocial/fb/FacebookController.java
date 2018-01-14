@@ -117,6 +117,7 @@ public class FacebookController {
         media.add(post.getPicture());
       }
 
+
       Event linkedTo = null;
 
       if (isShare(post)) {
@@ -142,7 +143,7 @@ public class FacebookController {
             .setDate(post.getCreatedTime())
             .setMedias(isShare(post) ? null : media)
             .setContent(post.getMessage())
-            .setLinkedTo(isShare(post) ? linkedTo.getId() : null);
+            .setLinkedTo(isShare(post) ? linkedTo : null);
 
         eventRepository.save(event);
       }
