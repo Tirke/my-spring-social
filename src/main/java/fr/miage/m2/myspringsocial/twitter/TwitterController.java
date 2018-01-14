@@ -41,6 +41,7 @@ public class TwitterController {
       return "redirect:/connect/twitter";
     }
 
+    //get tweet, retweet and comment made by user
     if (eventRepository.findLastId(SocialMedia.TWITTER, EventType.LIKE, user.getUserId()) == null) {
       saveEvents(twitter.timelineOperations().getUserTimeline(), user.getUserId());
     } else {
@@ -74,6 +75,15 @@ public class TwitterController {
     if (favorites.size() > 0) {
       saveLike(favorites, user.getUserId());
     }
+
+    eventRepository.getAllId(SocialMedia.TWITTER, EventType.LIKE, user.getUserId())
+        .forEach(s -> {
+          twitter.timelineOperations().getRetweets(Long.valueOf(s)).forEach(tweet -> {
+            Event event =buildEvent(tweet, user.getUserId()).setEventType(EventType.SHARED_BY).setLinkedTo(s);
+            eventRepository.save(event);
+          });
+        });
+
 
     return "index";
   }
