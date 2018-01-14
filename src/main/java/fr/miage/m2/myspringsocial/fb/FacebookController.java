@@ -240,7 +240,8 @@ public class FacebookController {
     System.out.println(likes.size());
     //get the likes we already fetched
     List<String> fetched = eventRepository
-        .getIdLinkedTo(SocialMedia.FACEBOOK, EventType.LIKED_BY, user, postId);
+        .getIdLinkedTo(SocialMedia.FACEBOOK, EventType.LIKED_BY, user, eventRepository
+            .findOne(new EventId().setId(postId).setSocialMedia(SocialMedia.FACEBOOK)));
 
     likes.removeAll(fetched);
     //save the likes we need
