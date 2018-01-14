@@ -72,7 +72,7 @@ public class FacebookController {
       return "redirect:/connect/facebook";
     }
 
-    List type = new ArrayList();
+    List<EventType> type = new ArrayList<>();
     type.add(EventType.POST);
     type.add(EventType.SHARE);
     //get the latest post' date we have
