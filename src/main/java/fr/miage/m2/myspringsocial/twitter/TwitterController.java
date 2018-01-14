@@ -3,6 +3,7 @@ package fr.miage.m2.myspringsocial.twitter;
 import fr.miage.m2.myspringsocial.account.AccountDetails;
 import fr.miage.m2.myspringsocial.config.CurrentUser;
 import fr.miage.m2.myspringsocial.event.Event;
+import fr.miage.m2.myspringsocial.event.EventId;
 import fr.miage.m2.myspringsocial.event.EventRepository;
 import fr.miage.m2.myspringsocial.event.EventType;
 import fr.miage.m2.myspringsocial.event.SocialMedia;
@@ -79,7 +80,7 @@ public class TwitterController {
     eventRepository.getAllId(SocialMedia.TWITTER, EventType.LIKE, user.getUserId())
         .forEach(s -> {
           twitter.timelineOperations().getRetweets(Long.valueOf(s)).forEach(tweet -> {
-            Event event =buildEvent(tweet, user.getUserId()).setEventType(EventType.SHARED_BY).setLinkedTo(s);
+            Event event =buildEvent(tweet, user.getUserId()).setEventType(EventType.SHARED_BY).setLinkedTo(eventRepository.findOne(new EventId().setId(s).setSocialMedia(SocialMedia.FACEBOOK)));
             eventRepository.save(event);
           });
         });

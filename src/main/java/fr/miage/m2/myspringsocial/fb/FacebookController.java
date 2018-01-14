@@ -3,6 +3,7 @@ package fr.miage.m2.myspringsocial.fb;
 import fr.miage.m2.myspringsocial.account.AccountDetails;
 import fr.miage.m2.myspringsocial.config.CurrentUser;
 import fr.miage.m2.myspringsocial.event.Event;
+import fr.miage.m2.myspringsocial.event.EventId;
 import fr.miage.m2.myspringsocial.event.EventRepository;
 import fr.miage.m2.myspringsocial.event.EventType;
 import fr.miage.m2.myspringsocial.event.SocialMedia;
@@ -19,6 +20,7 @@ import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Post;
@@ -101,7 +103,51 @@ public class FacebookController {
 
     }
 
+    // on cherche tous les posts pour voir si des commentaires ont été ajoutés
+    List<String> ids = eventRepository
+        .getAllId(SocialMedia.FACEBOOK, EventType.LIKE, user.getUserId());
+    ids.forEach(id -> {
+      saveComments(id, user.getUserId());
+    });
+
     return "index";
+  }
+
+  private void saveComments(String id, String user) {
+    List<EventType> eventTypes = new ArrayList<>();
+    eventTypes.add(EventType.COMMENT);
+    Date dateComment = eventRepository
+        .getMaxDateFromEvent(id, SocialMedia.FACEBOOK, eventTypes, user);
+
+    Long since2 = null;
+    if (dateComment != null) {
+      since2 = dateComment.getTime() / 1000;
+    }
+
+    List<Comment> comments = facebook.commentOperations()
+        .getComments(
+            id,
+            new PagingParameters(25, 0, since2, new Date().getTime() / 1000)
+        );
+
+    while (comments.size() > 0) {
+      saveComment(id, comments, user);
+
+      Comment minComment = comments.stream().min(Comparator.comparing(Comment::getCreatedTime))
+          .get();
+
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(minComment.getCreatedTime());
+      cal.add(Calendar.SECOND, -1);
+
+      comments = facebook.commentOperations()
+          .getComments(
+              id,
+              new PagingParameters(25, 0, since2, cal.getTime().getTime() / 1000)
+          );
+
+
+    }
   }
 
   private boolean isShare(Post post) {
@@ -116,7 +162,6 @@ public class FacebookController {
       if (post.getPicture() != null) {
         media.add(post.getPicture());
       }
-
 
       Event linkedTo = null;
 
@@ -151,5 +196,34 @@ public class FacebookController {
     });
   }
 
+  private void saveComment(String linkedTo, List<Comment> comments, String user) {
 
+    comments.forEach((Comment comment) -> {
+      if (eventRepository.findOne(new EventId()
+          .setId(comment.getId())
+          .setSocialMedia(SocialMedia.FACEBOOK)) == null) {
+        System.out.println(comment.getFrom().getId());
+        System.out.println(facebook.userOperations().getUserProfile().getId());
+        String author =
+            comment.getFrom().getId().equals(facebook.userOperations().getUserProfile().getId())
+                ? null
+                : comment.getFrom().getName();
+        Event event = new Event()
+            .setSocialMedia(SocialMedia.FACEBOOK)
+            .setId(comment.getId())
+            .setForUser(user)
+            .setEventType(EventType.COMMENTED_BY)
+            .setAuthor(author)
+            .setDate(comment.getCreatedTime())
+            .setMedias(null)
+            .setContent(comment.getMessage())
+            .setLinkedTo(eventRepository.findOne(new EventId()
+                .setId(linkedTo)
+                .setSocialMedia(SocialMedia.FACEBOOK)));
+        eventRepository.save(event);
+      }
+
+
+    });
+  }
 }
