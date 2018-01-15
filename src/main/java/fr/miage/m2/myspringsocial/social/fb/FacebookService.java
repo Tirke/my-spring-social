@@ -88,50 +88,17 @@ public class FacebookService {
     return "index";
   }
 
-  private void saveComments(String id, String user) {
-    List<EventType> eventTypes = new ArrayList<>();
-    eventTypes.add(EventType.COMMENT);
-    Date dateComment = eventRepository
-        .getMaxDateFromEvent(
-            eventRepository.findOne(new EventId().setId(id).setSocialMedia(SocialMedia.FACEBOOK)),
-            SocialMedia.FACEBOOK, eventTypes, user);
-
-    Long since2 = null;
-    if (dateComment != null) {
-      since2 = dateComment.getTime() / 1000;
-    }
-
-    List<Comment> comments = facebook.commentOperations()
-        .getComments(
-            id,
-            new PagingParameters(25, 0, since2, new Date().getTime() / 1000)
-        );
-
-    while (comments.size() > 0) {
-      saveComment(id, comments, user);
-
-      Comment minComment = comments.stream().min(Comparator.comparing(Comment::getCreatedTime))
-          .get();
-
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(minComment.getCreatedTime());
-      cal.add(Calendar.SECOND, -1);
-
-      comments = facebook.commentOperations()
-          .getComments(
-              id,
-              new PagingParameters(25, 0, since2, cal.getTime().getTime() / 1000)
-          );
-
-
-    }
-  }
-
+  /**
+   * Return true is the post is a share
+   */
   private boolean isShare(Post post) {
     return post.getName() != null && post.getDescription() != null;
   }
 
 
+  /**
+   * Save post in param liste
+   */
   private void saveEvent(List<Post> liste, String user) {
     liste.forEach(post -> {
 
@@ -174,6 +141,53 @@ public class FacebookService {
   }
 
 
+  /**
+   * Get comments made on the post (whose id is in param) for the user
+   */
+  private void saveComments(String id, String user) {
+    List<EventType> eventTypes = new ArrayList<>();
+    eventTypes.add(EventType.COMMENT);
+    Date dateComment = eventRepository
+        .getMaxDateFromEvent(
+            eventRepository.findOne(new EventId().setId(id).setSocialMedia(SocialMedia.FACEBOOK)),
+            SocialMedia.FACEBOOK, eventTypes, user);
+
+    Long since2 = null;
+    if (dateComment != null) {
+      since2 = dateComment.getTime() / 1000;
+    }
+
+    List<Comment> comments = facebook.commentOperations()
+        .getComments(
+            id,
+            new PagingParameters(25, 0, since2, new Date().getTime() / 1000)
+        );
+
+    while (comments.size() > 0) {
+      saveComment(id, comments, user);
+
+      Comment minComment = comments.stream().min(Comparator.comparing(Comment::getCreatedTime))
+          .get();
+
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(minComment.getCreatedTime());
+      cal.add(Calendar.SECOND, -1);
+
+      comments = facebook.commentOperations()
+          .getComments(
+              id,
+              new PagingParameters(25, 0, since2, cal.getTime().getTime() / 1000)
+          );
+
+    }
+  }
+
+  /**
+   * Save comments in param
+   * @param linkedTo
+   * @param comments
+   * @param user
+   */
   private void saveComment(String linkedTo, List<Comment> comments, String user) {
 
     comments.forEach((Comment comment) -> {
@@ -203,6 +217,11 @@ public class FacebookService {
     });
   }
 
+  /**
+   * Get and save likes on the post passed in param
+   * @param postId
+   * @param user
+   */
   private void saveLikedBy(String postId, String user) {
 
     //get all likes for this post

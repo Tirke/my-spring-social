@@ -78,6 +78,7 @@ public class TwitterService {
       saveLike(favorites, user.getUserId());
     }
 
+    //get all retweets of my tweets
     eventRepository.getAllId(SocialMedia.TWITTER, EventType.LIKE, user.getUserId())
         .forEach(s -> {
           twitter.timelineOperations().getRetweets(Long.valueOf(s)).forEach(tweet -> {
