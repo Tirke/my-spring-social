@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FacebookService {
 
+  private final int max = 100;
   private Facebook facebook;
   private EventRepository eventRepository;
   private ConnectionRepository connectionRepo;
@@ -40,8 +41,6 @@ public class FacebookService {
     this.eventRepository = eventRepository;
     this.connectionRepo = connectionRepo;
   }
-
-  private final int max = 100;
 
   public String fetchRecent(@CurrentUser AccountDetails user) {
     if (connectionRepo.findPrimaryConnection(Facebook.class) == null) {
@@ -184,9 +183,6 @@ public class FacebookService {
 
   /**
    * Save comments in param
-   * @param linkedTo
-   * @param comments
-   * @param user
    */
   private void saveComment(String linkedTo, List<Comment> comments, String user) {
 
@@ -217,8 +213,6 @@ public class FacebookService {
 
   /**
    * Get and save likes on the post passed in param
-   * @param postId
-   * @param user
    */
   private void saveLikedBy(String postId, String user) {
 
