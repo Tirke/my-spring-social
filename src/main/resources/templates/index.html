@@ -8,26 +8,21 @@
   <h1 class="title">Spring Social</h1>
 
   <div th:each="event : ${events}" class="col s12 m6 ">
-
-
-
     <ul class="collapsible popout" data-collapsible="accordion">
       <li>
-        <div
-            th:class="${event?.socialMedia == T(fr.miage.m2.myspringsocial.event.SocialMedia).FACEBOOK ? 'light-blue darken-4 collapsible-header row' : 'light-blue lighten-1 collapsible-header row' }">
-          <div class="col s1">
+        <div class="collapsible-header"
+             th:classappend="${event?.socialMedia == T(fr.miage.m2.myspringsocial.event.SocialMedia).FACEBOOK ? 'light-blue darken-4' : 'light-blue lighten-1' }">
+          <div class="mr10">
             <p class="btn-floating deep-orange">
-              <i class="material-icons" th:text="${event?.icone} "/>
+              <i class="material-icons" th:text="${event?.icone} "></i>
             </p>
           </div>
-          <div class="col s10">
-            <p th:text="${event?.description}" class="white-text title-collapsible"/>
-          </div>
-          <div class="col s1 white-text">
-            <i aria-hidden="true" th:class="${event?.socialMedia == T(fr.miage.m2.myspringsocial.event.SocialMedia).FACEBOOK ? 'fa fa-facebook-official fa-2x' : 'fa fa-twitter-square fa-2x' }">
-            </i>
+          <div th:text="${event?.description}" class="text-item white-text title-collapsible"></div>
+          <div class="white-text">
+            <i th:class="${event?.socialMedia == T(fr.miage.m2.myspringsocial.event.SocialMedia).FACEBOOK ? 'fa fa-facebook-official fa-2x' : 'fa fa-twitter-square fa-2x' }"></i>
           </div>
         </div>
+
         <div class="collapsible-body">
           <div>
             <div th:if="${event?.content != null}">
@@ -54,8 +49,9 @@
                th:text="${event?.linkedTo?.content} + ' de ' + ${event?.linkedTo?.author == null ? 'Vous' : event?.linkedTo?.author}"></p>
           </div>
           <div class="right-align">
-              <i aria-hidden="true" th:class="${event?.socialMedia == T(fr.miage.m2.myspringsocial.event.SocialMedia).FACEBOOK ? 'fa fa-facebook-official fa-2x' : 'fa fa-twitter-square fa-2x' }">
-              </i>
+            <i aria-hidden="true"
+               th:class="${event?.socialMedia == T(fr.miage.m2.myspringsocial.event.SocialMedia).FACEBOOK ? 'fa fa-facebook-official fa-2x' : 'fa fa-twitter-square fa-2x' }">
+            </i>
           </div>
 
         </div>

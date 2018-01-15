@@ -18,6 +18,38 @@
   margin-bottom: 10px;
 }
 
+.mr10 {
+  margin-right: 10px;
+}
+
+.text-item {
+  flex-basis: 90%;
+}
+
+.collapsible-header {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+  padding-top: 0;
+}
+
+.title-collapsible {
+  margin-top: 0;
+}
+
+.collapsible-header i {
+  width: inherit;
+  font-size: 1.6rem;
+  display: inline-block;
+  text-align: center;
+  margin-right: 0;
+}
+
+.collapsible-header {
+  align-items: center;
+}
+
 .twitter-header {
   display: block;
   overflow: hidden;
@@ -129,14 +161,4 @@
   line-height: 1.5em;
 }
 
-.collapsible-header{
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: 0;
-  /*display: block;*/
-}
 
-.title-collapsible {
-  margin-top: 0;
-}
