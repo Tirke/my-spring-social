@@ -40,7 +40,7 @@
               <p th:if="${#strings.contains(event?.linkedTo?.content, 't.co')}"
                  th:text="${#strings.substringBefore(event?.linkedTo?.content, 'https://t.co')} + ' de ' + ${event?.linkedTo?.author}"/>
               <p th:if="${!#strings.contains(event?.linkedTo?.content, 't.co')}"
-                 th:text="${event?.linkedTo?.content} + ' de ' + ${event?.linkedTo?.author}"></p>
+                 th:text="${event?.linkedTo?.content} + ' de ' + ${event?.linkedTo?.author == null ? 'Vous' : event?.linkedTo?.author}"></p>
             </div>
           </div>
         </div>
