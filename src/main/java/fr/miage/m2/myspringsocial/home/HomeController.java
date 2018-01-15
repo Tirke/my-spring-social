@@ -9,10 +9,8 @@ import fr.miage.m2.myspringsocial.event.EventRepository;
 import fr.miage.m2.myspringsocial.event.EventType;
 import fr.miage.m2.myspringsocial.social.fb.FacebookService;
 import fr.miage.m2.myspringsocial.social.twitter.TwitterService;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -28,46 +26,42 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class HomeController {
 
+  private final EventRepository er;
+  private final FacebookService facebookService;
+  private final TwitterService twitterService;
+  private List<EventType> eventTypes = Arrays.asList(EventType.SHARED_BY, EventType.LIKED_BY,
+      EventType.COMMENTED_BY);
 
   @Autowired
-  EventRepository er;
-
-  @Autowired
-  FacebookService facebookService;
-
-  @Autowired
-  TwitterService twitterService;
+  public HomeController(EventRepository er,
+      FacebookService facebookService,
+      TwitterService twitterService) {
+    this.er = er;
+    this.facebookService = facebookService;
+    this.twitterService = twitterService;
+  }
 
 
   @GetMapping("/")
   public String home(@CurrentUser AccountDetails user, Model model) {
     // CurrentUser is a way to retrieve the current user , null when anonymous
     if (user != null) {
-      List<EventType> eventTypes = new ArrayList<>();
-      eventTypes.add(EventType.SHARED_BY);
-      eventTypes.add(EventType.LIKED_BY);
-      eventTypes.add(EventType.COMMENTED_BY);
       List<Event> events = er.getEventsForUser(user.getUserId(), eventTypes);
-      events.forEach(event -> event.buildPresentation());
+      events.forEach(Event::buildPresentation);
       model.addAttribute("events", events);
     }
     return "index";
   }
 
   @GetMapping("/refresh")
-  public String refresh(@CurrentUser AccountDetails user, Model model) {
+  public String refresh(@CurrentUser AccountDetails user) {
     facebookService.fetchRecent(user);
     twitterService.fetchRecent(user);
     return "redirect:";
   }
 
   @GetMapping(value = "/download", produces = "application/json")
-  public ResponseEntity<Resource> download(@CurrentUser AccountDetails user,
-      HttpServletResponse response) throws IOException {
-    List<EventType> eventTypes = new ArrayList<>();
-    eventTypes.add(EventType.SHARED_BY);
-    eventTypes.add(EventType.LIKED_BY);
-    eventTypes.add(EventType.COMMENTED_BY);
+  public ResponseEntity<Resource> download(@CurrentUser AccountDetails user) {
     List<Event> events = er.getEventsForUser(user.getUserId(), eventTypes);
     GsonBuilder builder = new GsonBuilder();
     Gson gson = builder.create();
@@ -80,6 +74,5 @@ public class HomeController {
         .contentType(MediaType.parseMediaType("application/octet-stream"))
         .body(resource);
   }
-
 
 }

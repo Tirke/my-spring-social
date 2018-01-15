@@ -23,16 +23,21 @@ public class Event {
 
   @Id
   private String id;
+
   @Id
   @Enumerated(EnumType.STRING)
   private SocialMedia socialMedia;
+
   @Enumerated(EnumType.STRING)
   private EventType eventType;
+
   private String content;
   private String author;
   private Date date;
+
   @ElementCollection
   private Set<String> medias;
+
   @ManyToOne
   private Event linkedTo;
   private String forUser;
@@ -42,7 +47,6 @@ public class Event {
 
   @Transient
   private String description;
-
 
   public void buildPresentation() {
     switch (this.eventType) {

@@ -12,5 +12,4 @@ public class EventId implements Serializable {
 
   private String id;
   private SocialMedia socialMedia;
-
 }
