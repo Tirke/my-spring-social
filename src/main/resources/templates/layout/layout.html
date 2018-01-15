@@ -32,6 +32,12 @@
           Home
         </a>
       </li>
+      <li sec:authorize="isAuthenticated()"
+          th:classappend="${#httpServletRequest.getRequestURI().startsWith('/connect') ? 'active':''}">
+        <a th:href="@{/connect}">
+          Connections
+        </a>
+      </li>
       <li sec:authorize="isAuthenticated()">
         <form method="get" th:action="@{/refresh}" id="refresh">
           <a onclick="document.getElementById('refresh').submit()" th:text="Refresh"/>
@@ -41,12 +47,6 @@
         <form method="get" th:action="@{/download}" id="download">
           <a onclick="document.getElementById('download').submit()" th:text="Download"/>
         </form>
-      </li>
-      <li sec:authorize="isAuthenticated()"
-          th:classappend="${#httpServletRequest.getRequestURI().startsWith('/connect') ? 'active':''}">
-        <a th:href="@{/connect}">
-          Connections
-        </a>
       </li>
       <li sec:authorize="!isAuthenticated()"
           th:classappend="${#httpServletRequest.getRequestURI().startsWith('/signin') ? 'active':''}">

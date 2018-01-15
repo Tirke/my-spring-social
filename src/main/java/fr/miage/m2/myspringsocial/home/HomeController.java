@@ -63,6 +63,7 @@ public class HomeController {
   @GetMapping(value = "/download", produces = "application/json")
   public ResponseEntity<Resource> download(@CurrentUser AccountDetails user) {
     List<Event> events = er.getEventsForUser(user.getUserId(), eventTypes);
+
     GsonBuilder builder = new GsonBuilder();
     Gson gson = builder.create();
     String json = gson.toJson(events);

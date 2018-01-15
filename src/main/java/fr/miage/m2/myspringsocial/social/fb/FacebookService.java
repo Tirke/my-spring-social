@@ -73,7 +73,7 @@ public class FacebookService {
 
       liste = facebook.feedOperations()
           .getPosts(
-              new PagingParameters(2, 0, since, cal.getTime().getTime() / 1000));
+              new PagingParameters(max, 0, since, cal.getTime().getTime() / 1000));
 
     }
 
@@ -160,7 +160,7 @@ public class FacebookService {
     List<Comment> comments = facebook.commentOperations()
         .getComments(
             id,
-            new PagingParameters(25, 0, since2, new Date().getTime() / 1000)
+            new PagingParameters(max, 0, since2, new Date().getTime() / 1000)
         );
 
     while (comments.size() > 0) {
@@ -176,7 +176,7 @@ public class FacebookService {
       comments = facebook.commentOperations()
           .getComments(
               id,
-              new PagingParameters(25, 0, since2, cal.getTime().getTime() / 1000)
+              new PagingParameters(max, 0, since2, cal.getTime().getTime() / 1000)
           );
 
     }
@@ -194,8 +194,6 @@ public class FacebookService {
       if (eventRepository.findOne(new EventId()
           .setId(comment.getId())
           .setSocialMedia(SocialMedia.FACEBOOK)) == null) {
-        System.out.println(comment.getFrom().getId());
-        System.out.println(facebook.userOperations().getUserProfile().getId());
         String author =
             comment.getFrom().getId().equals(facebook.userOperations().getUserProfile().getId())
                 ? null
