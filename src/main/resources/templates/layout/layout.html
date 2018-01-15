@@ -68,21 +68,28 @@
 
 <section layout:fragment="content" class="container"></section>
 
+<!--<script-->
+<!--src="https://code.jquery.com/jquery-3.2.1.min.js"-->
+<!--integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="-->
+<!--crossorigin="anonymous"></script>-->
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/js/materialize.min.js"></script>
+
 <script>
-  (() = > {
+  (() => {
     const logoutLink = document.getElementById('logoutLink')
     const logoutForm = document.getElementById('logoutForm')
 
     if(logoutLink) {
-      logoutLink.addEventListener('click', () = > {
+      logoutLink.addEventListener('click', () => {
         logoutForm.submit()
     })
     }
-  }
-  )
-  ()
+    const collapsibles = document.querySelectorAll('.collapsible')
+
+    const instance = M.Collapsible.init(collapsibles, {})
+  })()
 </script>
+
 </body>
 </html>
