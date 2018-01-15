@@ -80,11 +80,13 @@ public class TwitterController {
     eventRepository.getAllId(SocialMedia.TWITTER, EventType.LIKE, user.getUserId())
         .forEach(s -> {
           twitter.timelineOperations().getRetweets(Long.valueOf(s)).forEach(tweet -> {
-            Event event =buildEvent(tweet, user.getUserId()).setEventType(EventType.SHARED_BY).setLinkedTo(eventRepository.findOne(new EventId().setId(s).setSocialMedia(SocialMedia.FACEBOOK)));
+
+            Event event = buildEvent(tweet, user.getUserId()).setEventType(EventType.SHARED_BY)
+                .setLinkedTo(eventRepository
+                    .findOne(new EventId().setSocialMedia(SocialMedia.TWITTER).setId(s)));
             eventRepository.save(event);
           });
         });
-
 
     return "index";
   }

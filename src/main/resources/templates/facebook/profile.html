@@ -9,7 +9,7 @@
   <div class="profile-container">
     <header class="facebook-header">
       <div class="bio">
-        <img th:src="${profile.getCover().getSource()}" alt="background" class="bg">
+        <img th:src="${profile.getCover()?.getSource()}" alt="background" class="bg">
         <div class="desc">
           <h3 th:text="${profile.getName()}"></h3>
           <span th:text="${profile.getAbout()}"></span>

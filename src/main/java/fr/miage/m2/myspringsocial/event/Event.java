@@ -9,13 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 
 @Data
 @Accessors(chain = true)
@@ -23,7 +20,6 @@ import org.springframework.data.jpa.repository.Query;
 @Entity
 @IdClass(EventId.class)
 public class Event {
-
 
   @Id
   private String id;
@@ -48,8 +44,8 @@ public class Event {
   private String description;
 
 
-  public void buildPresentation(){
-    switch (this.eventType){
+  public void buildPresentation() {
+    switch (this.eventType) {
       case LIKE:
         this.setIcone("favorite");
         this.setDescription("Vous avez aimé ");
@@ -65,6 +61,19 @@ public class Event {
       case POST:
         this.setIcone("local_post_office");
         this.setDescription("Vous avez posté ");
+        break;
+      case LIKED_BY:
+        this.setIcone("favorite");
+        this.setDescription(this.author + " a aimé ");
+        break;
+      case COMMENTED_BY:
+        this.setIcone("mode_comment");
+        this.setDescription(this.author + " a commenté ");
+        break;
+      case SHARED_BY:
+        this.setIcone("share");
+        this.setDescription(this.author + " a partagé ");
+        break;
     }
   }
 
