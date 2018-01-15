@@ -5,6 +5,8 @@ import fr.miage.m2.myspringsocial.config.CurrentUser;
 import fr.miage.m2.myspringsocial.event.Event;
 import fr.miage.m2.myspringsocial.event.EventRepository;
 import fr.miage.m2.myspringsocial.event.EventType;
+import fr.miage.m2.myspringsocial.social.fb.FacebookService;
+import fr.miage.m2.myspringsocial.social.twitter.TwitterService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+<<<<<<<HEAD
+    =======
+    >>>>>>>button refresh to get all recent events
+
 @Controller
 @Slf4j
 public class HomeController {
@@ -20,6 +26,12 @@ public class HomeController {
 
   @Autowired
   EventRepository er;
+
+  @Autowired
+  FacebookService facebookService;
+
+  @Autowired
+  TwitterService twitterService;
 
 
   @GetMapping("/")
@@ -36,4 +48,13 @@ public class HomeController {
     }
     return "index";
   }
+
+  @GetMapping("/refresh")
+  public String refresh(@CurrentUser AccountDetails user, Model model) {
+    facebookService.fetchRecent(user);
+    twitterService.fetchRecent(user);
+    return "redirect:";
+  }
+
+
 }

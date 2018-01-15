@@ -1,4 +1,4 @@
-package fr.miage.m2.myspringsocial.twitter;
+package fr.miage.m2.myspringsocial.social.twitter;
 
 import fr.miage.m2.myspringsocial.account.AccountDetails;
 import fr.miage.m2.myspringsocial.config.CurrentUser;
@@ -16,12 +16,11 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.twitter.api.MediaEntity;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Service;
 
-@Controller
-public class TwitterController {
+@Service
+public class TwitterService {
+
 
   private final int numberFetched = 3;
   private Twitter twitter;
@@ -29,15 +28,15 @@ public class TwitterController {
   private EventRepository eventRepository;
 
   @Autowired
-  public TwitterController(Twitter twitter, ConnectionRepository connectionRepo,
+  public TwitterService(Twitter twitter,
+      ConnectionRepository connectionRepo,
       EventRepository eventRepository) {
     this.twitter = twitter;
     this.connectionRepo = connectionRepo;
     this.eventRepository = eventRepository;
   }
 
-  @GetMapping("/twitter")
-  public String helloTwitter(Model model, @CurrentUser AccountDetails user) {
+  public String fetchRecent(@CurrentUser AccountDetails user) {
     if (connectionRepo.findPrimaryConnection(Twitter.class) == null) {
       return "redirect:/connect/twitter";
     }
@@ -80,26 +79,21 @@ public class TwitterController {
     eventRepository.getAllId(SocialMedia.TWITTER, EventType.LIKE, user.getUserId())
         .forEach(s -> {
           twitter.timelineOperations().getRetweets(Long.valueOf(s)).forEach(tweet -> {
+<<<<<<< HEAD:src/main/java/fr/miage/m2/myspringsocial/twitter/TwitterController.java
 
             Event event = buildEvent(tweet, user.getUserId()).setEventType(EventType.SHARED_BY)
                 .setLinkedTo(eventRepository
                     .findOne(new EventId().setSocialMedia(SocialMedia.TWITTER).setId(s)));
+=======
+            Event event = buildEvent(tweet, user.getUserId()).setEventType(EventType.SHARED_BY)
+                .setLinkedTo(eventRepository
+                    .findOne(new EventId().setId(s).setSocialMedia(SocialMedia.FACEBOOK)));
+>>>>>>> button refresh to get all recent events:src/main/java/fr/miage/m2/myspringsocial/social/twitter/TwitterService.java
             eventRepository.save(event);
           });
         });
 
     return "index";
-  }
-
-
-  @GetMapping("/profile/twitter")
-  public String twitterProfile(Model model) {
-    if (connectionRepo.findPrimaryConnection(Twitter.class) == null) {
-      return "redirect:/connect/twitter";
-    }
-
-    model.addAttribute("profile", twitter.userOperations().getUserProfile());
-    return "twitter/profile";
   }
 
   /**
@@ -186,5 +180,6 @@ public class TwitterController {
     }
     return EventType.POST;
   }
+
 
 }

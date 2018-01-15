@@ -31,6 +31,11 @@
           Home
         </a>
       </li>
+      <li>
+        <form method="get" th:action="@{/refresh}" id="refresh">
+          <a onclick="document.getElementById('refresh').submit()" th:text="refresh"/>
+        </form>
+      </li>
       <li sec:authorize="isAuthenticated()"
           th:classappend="${#httpServletRequest.getRequestURI().startsWith('/connect') ? 'active':''}">
         <a th:href="@{/connect}">
@@ -65,16 +70,18 @@
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/js/materialize.min.js"></script>
 <script>
-  (() => {
+  (() = > {
     const logoutLink = document.getElementById('logoutLink')
     const logoutForm = document.getElementById('logoutForm')
 
-    if (logoutLink) {
-      logoutLink.addEventListener('click', () => {
+    if(logoutLink) {
+      logoutLink.addEventListener('click', () = > {
         logoutForm.submit()
-      })
+    })
     }
-  })()
+  }
+  )
+  ()
 </script>
 </body>
 </html>

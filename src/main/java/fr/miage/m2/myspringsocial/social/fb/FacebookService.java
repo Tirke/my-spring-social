@@ -1,4 +1,4 @@
-package fr.miage.m2.myspringsocial.fb;
+package fr.miage.m2.myspringsocial.social.fb;
 
 import fr.miage.m2.myspringsocial.account.AccountDetails;
 import fr.miage.m2.myspringsocial.config.CurrentUser;
@@ -7,9 +7,6 @@ import fr.miage.m2.myspringsocial.event.EventId;
 import fr.miage.m2.myspringsocial.event.EventRepository;
 import fr.miage.m2.myspringsocial.event.EventType;
 import fr.miage.m2.myspringsocial.event.SocialMedia;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -26,52 +23,27 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.Reference;
-import org.springframework.social.facebook.api.User;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Service;
 
-@Controller
-public class FacebookController {
+@Service
+public class FacebookService {
 
   private Facebook facebook;
-  private ConnectionRepository connectionRepo;
   private EventRepository eventRepository;
+  private ConnectionRepository connectionRepo;
+
+  @Autowired
+  public FacebookService(Facebook facebook,
+      EventRepository eventRepository,
+      ConnectionRepository connectionRepo) {
+    this.facebook = facebook;
+    this.eventRepository = eventRepository;
+    this.connectionRepo = connectionRepo;
+  }
 
   private final int max = 100;
 
-  @Autowired
-  public FacebookController(Facebook facebook,
-      ConnectionRepository connectionRepo, EventRepository eventRepository) {
-    this.facebook = facebook;
-    this.connectionRepo = connectionRepo;
-    this.eventRepository = eventRepository;
-  }
-
-
-  @GetMapping("/profile/facebook")
-  public String facebookProfile(Model model) {
-    if (connectionRepo.findPrimaryConnection(Facebook.class) == null) {
-      return "redirect:/connect/facebook";
-    }
-
-    Integer totalFriends = facebook.friendOperations().getFriendIds().getTotalCount();
-    User profile = facebook.userOperations().getUserProfile();
-    model.addAttribute("profile", profile);
-    model.addAttribute("age", getUserAge(profile));
-    model.addAttribute("totalFriends", totalFriends);
-
-    return "facebook/profile";
-  }
-
-  private int getUserAge(User profile) {
-    LocalDate birthday = LocalDate.parse(profile.getBirthday(),
-        DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-    return Period.between(birthday, LocalDate.now()).getYears();
-  }
-
-  @GetMapping("/fb")
-  public String helloFb(Model model, @CurrentUser AccountDetails user) {
+  public String fetchRecent(@CurrentUser AccountDetails user) {
     if (connectionRepo.findPrimaryConnection(Facebook.class) == null) {
       return "redirect:/connect/facebook";
     }
@@ -257,5 +229,3 @@ public class FacebookController {
   }
 
 }
-
-
