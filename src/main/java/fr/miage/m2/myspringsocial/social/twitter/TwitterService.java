@@ -67,7 +67,9 @@ public class TwitterService {
     List<Tweet> favorites = twitter.timelineOperations().getFavorites();
 
     List<String> alreadyFetched = eventRepository
-        .getLinkedTo(SocialMedia.TWITTER, EventType.LIKE, user.getUserId());
+        .getLinkedTo(SocialMedia.TWITTER, EventType.LIKE, user.getUserId()).stream()
+        .map(Event::getId).collect(
+            Collectors.toList());
     //remove from the favorites the one we already have
     favorites = favorites.stream().filter(tweet -> !alreadyFetched.contains(tweet.getId()))
         .collect(Collectors.toList());

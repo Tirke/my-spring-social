@@ -16,7 +16,7 @@ public interface EventRepository extends JpaRepository<Event, EventId> {
   String findLastId(SocialMedia socialMedia, EventType eventType, String user);
 
   @Query("SELECT e.linkedTo FROM Event e WHERE e.socialMedia=?1 AND e.eventType = ?2 AND e.forUser=?3")
-  List<String> getLinkedTo(SocialMedia socialMedia, EventType eventType, String user);
+  List<Event> getLinkedTo(SocialMedia socialMedia, EventType eventType, String user);
 
   @Query("SELECT max(e.date) FROM Event e WHERE e.socialMedia=?1 AND e.eventType IN ?2 AND e.forUser=?3")
   Date getMaxDate(SocialMedia socialMedia, List<EventType> eventType, String user);

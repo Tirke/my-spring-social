@@ -31,7 +31,7 @@
           Home
         </a>
       </li>
-      <li>
+      <li sec:authorize="isAuthenticated()">
         <form method="get" th:action="@{/refresh}" id="refresh">
           <a onclick="document.getElementById('refresh').submit()" th:text="Refresh"/>
         </form>
