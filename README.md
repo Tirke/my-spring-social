@@ -13,7 +13,7 @@ L'application devra permettre d'exporter les données dans un format standard (j
 
 Pour l'installation :
 Lancer l'application Maven
-* Une base de donnée "my-spring-social" sera créée
+* Une base de données PostgreSQL "my-spring-social" sera créée
 * Ouvrir l'application : [localhost:8080](http://localhost:8080)
 
 ## Utilisation
