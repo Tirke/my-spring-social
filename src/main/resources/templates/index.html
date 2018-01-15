@@ -18,6 +18,7 @@
         </div>
         <div class="card-content white-text col s11">
 
+
           <b><p th:text="${event?.description}"/></b>
 
           <div>
@@ -42,6 +43,11 @@
             <p th:if="${!#strings.contains(event?.linkedTo?.content, 't.co')}"
                th:text="${event?.linkedTo?.content} + ' de ' + ${event?.linkedTo?.author == null ? 'Vous' : event?.linkedTo?.author}"></p>
           </div>
+          <div class="right-align">
+              <i aria-hidden="true" th:class="${event?.socialMedia == T(fr.miage.m2.myspringsocial.event.SocialMedia).FACEBOOK ? 'fa fa-facebook-official fa-2x' : 'fa fa-twitter-square fa-2x' }">
+              </i>
+          </div>
+
         </div>
       </div>
     </div>
