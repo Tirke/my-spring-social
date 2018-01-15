@@ -161,4 +161,11 @@
   line-height: 1.5em;
 }
 
+#title-li {
+  margin-left: 80px;
+}
+
+#title-a {
+  font-size: 1.8rem;
+}
 

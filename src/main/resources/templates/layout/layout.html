@@ -23,9 +23,15 @@
 <nav class="blue darken-1">
   <div class="nav-wrapper">
     <a th:href="@{/}" class="brand-logo">
-      <!--<img th:src="@{/images/logo.png}" alt="My Spring Social" height="30px">-->
-      Spring Social
+      <img th:src="@{/images/logoMySpringSocial.png}" alt="My Spring Social" height="64px">
     </a>
+    <ul>
+      <li id="title-li">
+        <a id="title-a" th:href="@{/}">
+          My Spring Social
+        </a>
+      </li>
+    </ul>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}">
         <a th:href="@{/}">
