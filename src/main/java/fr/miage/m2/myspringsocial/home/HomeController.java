@@ -69,6 +69,7 @@ public class HomeController {
     eventTypes.add(EventType.LIKED_BY);
     eventTypes.add(EventType.COMMENTED_BY);
     List<Event> events = er.getEventsForUser(user.getUserId(), eventTypes);
+
     GsonBuilder builder = new GsonBuilder();
     Gson gson = builder.create();
     String json = gson.toJson(events);

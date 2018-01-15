@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class TwitterService {
 
 
-  private final int numberFetched = 3;
+  private final int numberFetched = 100;
   private Twitter twitter;
   private ConnectionRepository connectionRepo;
   private EventRepository eventRepository;
