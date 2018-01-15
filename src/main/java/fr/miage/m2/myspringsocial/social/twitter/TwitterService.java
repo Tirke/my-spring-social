@@ -79,17 +79,10 @@ public class TwitterService {
     eventRepository.getAllId(SocialMedia.TWITTER, EventType.LIKE, user.getUserId())
         .forEach(s -> {
           twitter.timelineOperations().getRetweets(Long.valueOf(s)).forEach(tweet -> {
-<<<<<<< HEAD:src/main/java/fr/miage/m2/myspringsocial/twitter/TwitterController.java
 
             Event event = buildEvent(tweet, user.getUserId()).setEventType(EventType.SHARED_BY)
                 .setLinkedTo(eventRepository
                     .findOne(new EventId().setSocialMedia(SocialMedia.TWITTER).setId(s)));
-=======
-            Event event = buildEvent(tweet, user.getUserId()).setEventType(EventType.SHARED_BY)
-                .setLinkedTo(eventRepository
-                    .findOne(new EventId().setId(s).setSocialMedia(SocialMedia.FACEBOOK)));
->>>>>>> button refresh to get all recent events:src/main/java/fr/miage/m2/myspringsocial/social/twitter/TwitterService.java
-            eventRepository.save(event);
           });
         });
 

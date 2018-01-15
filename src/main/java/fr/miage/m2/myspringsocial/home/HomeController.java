@@ -15,9 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-<<<<<<<HEAD
-    =======
-    >>>>>>>button refresh to get all recent events
 
 @Controller
 @Slf4j
