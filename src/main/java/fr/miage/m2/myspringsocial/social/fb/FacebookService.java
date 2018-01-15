@@ -209,7 +209,7 @@ public class FacebookService {
     List<String> likes = facebook.likeOperations().getLikes(postId).stream()
         .map(Reference::getName)
         .collect(Collectors.toList());
-    System.out.println(likes.size());
+
     //get the likes we already fetched
     List<String> fetched = eventRepository
         .getIdLinkedTo(SocialMedia.FACEBOOK, EventType.LIKED_BY, user, eventRepository
@@ -217,15 +217,22 @@ public class FacebookService {
 
     likes.removeAll(fetched);
     //save the likes we need
-    likes.forEach(name -> eventRepository.save(new Event()
-        .setLinkedTo(eventRepository
-            .findOne(new EventId().setId(postId).setSocialMedia(SocialMedia.FACEBOOK)))
-        .setEventType(EventType.LIKED_BY)
-        .setForUser(user)
-        .setSocialMedia(SocialMedia.FACEBOOK)
-        .setAuthor(name)
-        .setId(UUID.randomUUID().toString())
-        .setDate(new Date())));
+    likes.forEach(name -> {
+      String author =
+          name.equals(facebook.userOperations().getUserProfile().getName())
+              ? null
+              : name;
+      eventRepository.save(new Event()
+          .setLinkedTo(eventRepository
+              .findOne(new EventId().setId(postId).setSocialMedia(SocialMedia.FACEBOOK)))
+          .setEventType(EventType.LIKED_BY)
+          .setForUser(author)
+          .setSocialMedia(SocialMedia.FACEBOOK)
+          .setAuthor(name)
+          .setId(UUID.randomUUID().toString())
+          .setDate(new Date()));
+    });
+
   }
 
 }
