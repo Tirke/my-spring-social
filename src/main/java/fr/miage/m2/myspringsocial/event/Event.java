@@ -68,7 +68,11 @@ public class Event {
         break;
       case COMMENTED_BY:
         this.setIcone("mode_comment");
-        this.setDescription(this.author + " a commenté ");
+        if (this.author == null) {
+          this.setDescription("Vous avez commenté");
+        } else {
+          this.setDescription(this.author + " a commenté ");
+        }
         break;
       case SHARED_BY:
         this.setIcone("share");
