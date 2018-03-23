@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Template
+labels:
+  demo: my-spring-social
+  template: msp
+metadata:
+  annotations:
+    description: Spring Boot Deploy
+    iconClass: icon-java
+    tags: nice
+  name: my-spring-social
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: back
+    labels:
+      app: back
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: back
+    strategy:
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          app: back
+          deploymentconfig: back
+        name: back
+      spec:
+        containers:
+          image: back
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: back
+          ports:        
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          - containerPort: 8443
+            name: https
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              memory: 200Mi
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 75
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - back
+        from:
+          kind: ImageStreamTag
+          name: back:latest
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: back
+    name: back
+  spec:
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: back

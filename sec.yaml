@@ -1,0 +1,95 @@
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    name: cart
+    labels:
+      app: cart
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: cart
+    strategy:
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          app: cart
+          deploymentconfig: cart
+        name: cart
+      spec:
+        containers:
+        - env:
+          - name: CATALOG_ENDPOINT
+            value: "http://catalog:8080"
+          - name: PRICING_ENDPOINT
+            value: "http://pricing:8080"
+          - name: KIE_CONTAINER_DEPLOYMENT
+            value: ${KIE_CONTAINER_DEPLOYMENT}
+          - name: KIE_SERVER_USER
+            value: ${KIE_SERVER_USER}
+          - name: KIE_SERVER_PASSWORD
+            value: ${KIE_SERVER_PASSWORD}
+          image: cart
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: cart
+          ports:        
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          - containerPort: 8443
+            name: https
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              memory: 200Mi
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 75
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - cart
+        from:
+          kind: ImageStreamTag
+          name: cart:latest
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: cart
+    name: cart
+  spec:
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: cart

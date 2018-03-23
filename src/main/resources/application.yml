@@ -8,9 +8,9 @@ spring:
       app-secret: T6bfvTBioRkyfj32kW8qw4ar5UBAX1W5G2UZGogyl2cvHpBV2l
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/my-spring-social
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://${DB_URI}/${DB_DATABASE}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
